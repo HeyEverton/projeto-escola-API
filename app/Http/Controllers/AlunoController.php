@@ -59,9 +59,7 @@ class AlunoController extends Controller
                 'data' => 'foi cadastrado',
             ]);
         } catch (\Exception $e) {
-
         }
-
     }
 
     /**
@@ -90,37 +88,32 @@ class AlunoController extends Controller
     public function update(CreateAlunoRequest $request, $id, CreateAlunoFotoRequest $alunoFotoRequest)
     {
         $input = $request->validated();
-        // $data = $request->all();
+        $data = $request->all();
 
-        $aluno = $this->aluno->find($id);
-        if (empty($aluno)) {
-            throw new ModelNotFoundException();
-        }
+        // dd($data);
+        
+        $alunoFoto = $alunoFotoRequest->file('aluno_foto');
+        try {
+            $aluno = $this->aluno->find($id);
+            
+            $arquivo = '';
+            if ($alunoFoto) {
+                if ($request->file('aluno_foto')->isValid()) {
+                    $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
+                    $nomeAluno = $request->get('nome');
+                    $arquivo = $alunoFoto->storeAs('fotoAluno', "{$nomeAluno}" .  "." . "{$extensaoArquivo}");
+                }
+            }
+            $data['aluno_foto'] = $arquivo;
 
-        $aluno->update($input);
-
-        return new AlunoResource($aluno);
-
-        // $alunoFoto = $alunoFotoRequest->file('aluno_foto');
-        // try {
-        //     $arquivo = '';
-        //     if ($alunoFoto) {
-        //         if ($request->file('aluno_foto')->isValid()) {
-        //             $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-        //             $nomeAluno = $request->get('nome');
-        //             $arquivo = $alunoFoto->storeAs('fotoAluno', "{$nomeAluno}" .  "." . "{$extensaoArquivo}");
-        //         }
-        //     }
-        //     $data['aluno_foto'] = $arquivo;
-
-        //     $this->aluno->update($data);
+            $this->aluno->update($aluno);
 
             // return new AlunoResource($data);
-            // return response()->json([
-            //     'data' => 'foi editado',
-            // ]);
-        // } catch (\Exception $e) {
-        // }
+            return response()->json([
+                'message' => 'foi editado',
+            ]);
+        } catch (\Exception $e) {
+        }
     }
 
     /**
@@ -133,13 +126,13 @@ class AlunoController extends Controller
     {
         $aluno = $this->aluno->find($id);
 
-        if(empty($aluno)) {
+        if (empty($aluno)) {
             throw new ModelNotFoundException();
         }
         $aluno->delete();
 
         return response()->json([
-           'message'  => 'deletado com sucesso'
+            'message'  => 'deletado com sucesso'
         ]);
     }
 }
