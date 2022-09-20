@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('nacionalidade', 40);
             $table->string('escolaridade', 35);
             $table->date('data_nasc');
-            $table->string('whataspp', 15)->nullable();
+            $table->string('whatsapp', 15)->nullable();
             $table->string('tel_contato', 15);
             $table->string('nome_rua', 50);
             $table->integer('numero_residencia');

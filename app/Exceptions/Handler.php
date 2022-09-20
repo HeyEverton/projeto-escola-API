@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
 
             $apiErrorCode = $modelName . 'NotFoundException';
 
-            $message = $modelName . ' not found.';
+            $message = $modelName . 'nao encontrado.';
             
             return response()->json([
                 'error' => $apiErrorCode,

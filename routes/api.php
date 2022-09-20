@@ -29,7 +29,11 @@ Route::prefix('v1/')->group(function() {
 
 
     //ALUNO
-    Route::post('aluno', [AlunoController::class, 'store']);
+    Route::post('alunos', [AlunoController::class, 'store']);
+    Route::get('alunos', [AlunoController::class, 'index']);
+    Route::get('alunos/{id}', [AlunoController::class, 'show']);
+    Route::put('alunos/{id}', [AlunoController::class, 'update']);
+    Route::delete('alunos/{id}', [AlunoController::class, 'destroy']);
 
 
     //CURSO

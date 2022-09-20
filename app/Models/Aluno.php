@@ -8,15 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Aluno extends Model
 {
     use HasFactory;
+
+    protected $table = 'tb_alunos';
+    
     protected $fillable = [
         'nome',
         'cpf_aluno',
         'aluno_foto',
         'email',
         'sexo',
+        'nacionalidade',
+        'escolaridade',
         'data_nasc',
-        'tel_fixo',
+        'whatsapp',
+        'tel_contato',
         'nome_rua',
+        'numero_residencia',
         'cep',
         'cidade',
         'bairro',
