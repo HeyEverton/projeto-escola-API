@@ -16,23 +16,24 @@ class AuthController extends Controller
 
     public function login(AuthLoginRequest $request)
     {
-        dd('oi');
-        // $input = $request->validated();
-        // $token = $this->authService
-        //     ->login($input['email'], $input['senha']);
+        $input = $request->validated();
+        $token = $this->authService
+            ->login($input['email'], $input['senha']);
 
-        // return (new UserResource(auth()->user()))->additional($token);
+        return (new UserResource(auth()->user()))->additional($token);
     }
 
     public function register(AuthRegisterRequest $request)
     {
+        
         $input = $request->validated();
+        dd($input['senha']);
         $user = $this->authService
             ->register(
-                $input['first_name'],
-                $input['last_name'] ?? '',
+                $input['nome'],
                 $input['email'],
-                $input['password']
+                $input['cargo'],
+                $input['senha']
             );
 
         return new UserResource($user);

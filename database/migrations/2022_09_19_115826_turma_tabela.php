@@ -18,10 +18,12 @@ return new class extends Migration
             $table->string('nome');
             $table->integer('turno');
             $table->date('data_inicio');
-            $table->integer('qt_alunos');
+            $table->date('data_termino');
+            $table->integer('qt_max_alunos');
             $table->time('horaria_entrada');
             $table->time('horaria_saida');
             $table->integer('modalidade');
+            $table->string('status', 30);
 
             $table->unsignedBigInteger('professor_id');
             $table->unsignedBigInteger('curso_id');

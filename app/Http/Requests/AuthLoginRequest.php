@@ -29,15 +29,4 @@ class AuthLoginRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'email.required' => 'Campo obrigatório',
-            'email.email' => 'Email inválido',
-            'senha.min' => 'Precisa 8 caracteres',
-            'senha.max' => 'Excedeu o numero de caracteres',         
-            'senha.regex' => 'Senha inválida',
-            'senha.required' => 'Campo obrigatório'
-        ];
-    }
 }

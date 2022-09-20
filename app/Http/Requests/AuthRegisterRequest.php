@@ -27,17 +27,7 @@ class AuthRegisterRequest extends FormRequest
             'nome' => 'required|string',
             'email' => 'required|email',
             'senha' => 'required|min:8|max:30|regex:(^[a-zA-Z0-9 _-]+[a-zA-Z0-9-14\-[a-zA-Z0-9-.]+$)',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'nome.required' => 'Campo obrigatório',
-            'email.required' => 'Campo obrigatório',
-            'email.email' => 'Email inválido',
-            'senha.min' => 'Precisa de no minimo 8 caracteres',
-            'senha.max' => 'Excedeu o numero de caracteres',
+            'cargo' => 'required|string',
         ];
     }
 }

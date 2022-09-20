@@ -24,6 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1/')->group(function() {
     //AUTENTICACAO INCOMPLETA
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('cadastro', [AuthController::class, 'register']);
+
+
+
     //ALUNO
     Route::post('aluno', [AlunoController::class, 'store']);
 

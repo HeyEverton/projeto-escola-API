@@ -39,25 +39,4 @@ class CreateAlunoRequest extends FormRequest
             'estado' => 'required|string|max:2',
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'nome.required' => 'este campo e obrigatorio.',
-            'cpf_aluno.required' => 'este campo e obrigatorio.',
-            'aluno_foto.required' => 'este campo e obrigatorio.',
-            'aluno_foto.image' => 'por favor, insira uma imagem.',
-            'aluno_foto.mimes' => 'apenas os formatos: jpeg, jpg, png sao permitidos.',
-            'email.required' => 'este campo e obrigatorio.',
-            'email.email' => 'email invalido.',
-            'sexo.required' => 'este campo e obrigatorio',
-            'data_nasc.required' => 'este campo e obrigatorio',
-            'tel_contato.required' => 'este campo e obrigatorio',
-            'nome_rua.required' => 'este campo e obrigatorio',
-            'cep.required' => 'este campo e obrigatorio',
-            'cidade.required' => 'este campo e obrigatorio',
-            'bairro.required' => 'este campo e obrigatorio',
-            'estado.required' => 'este campo e obrigatorio',
-        ];
-    }
 }

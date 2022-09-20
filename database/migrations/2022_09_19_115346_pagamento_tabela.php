@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('num_parcelas');
             $table->integer('valor_parcela');
             $table->date('data_vencimento');
-            $table->integer('status');
+            $table->string('status');
             $table->unsignedBigInteger('aluno_id');
 
             $table->foreign('aluno_id')->references('id')->on('tb_alunos');

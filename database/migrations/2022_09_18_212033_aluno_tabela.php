@@ -20,10 +20,13 @@ return new class extends Migration
             $table->string('aluno_foto');
             $table->string('email')->unique();
             $table->string('sexo', 10);
+            $table->string('nacionalidade', 40);
+            $table->string('escolaridade', 35);
             $table->date('data_nasc');
-            $table->string('tel_fixo', 15)->nullable();
+            $table->string('whataspp', 15)->nullable();
             $table->string('tel_contato', 15);
-            $table->string('nome_rua',45);
+            $table->string('nome_rua', 50);
+            $table->integer('numero_residencia');
             $table->string('cep', 10);
             $table->string('cidade', 30);
             $table->string('bairro', 30);
