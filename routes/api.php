@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\ProfessorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,12 +30,15 @@ Route::prefix('v1/')->group(function() {
 
 
     //ALUNO
-    Route::post('alunos', [AlunoController::class, 'store']);
     Route::get('alunos', [AlunoController::class, 'index']);
+    Route::post('alunos', [AlunoController::class, 'store']);
     Route::get('alunos/{id}', [AlunoController::class, 'show']);
     Route::put('alunos/{id}', [AlunoController::class, 'update']);
     Route::delete('alunos/{id}', [AlunoController::class, 'destroy']);
 
+    //PROFESSOR
+    
+    Route::post('professores', [ProfessorController::class, 'store']);
 
     //CURSO
     Route::post('cursos', [CursoController::class, 'store']);

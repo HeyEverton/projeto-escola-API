@@ -13,7 +13,7 @@ class CreateProfessorFotoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class CreateProfessorFotoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'professor_foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

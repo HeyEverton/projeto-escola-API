@@ -24,7 +24,7 @@ class CreateAlunoFotoRequest extends FormRequest
     public function rules()
     {
         return [
-            'aluno_foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'aluno_foto' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

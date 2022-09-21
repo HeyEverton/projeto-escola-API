@@ -36,6 +36,7 @@ class AlunoController extends Controller
      */
     public function store(CreateAlunoRequest $request, CreateAlunoFotoRequest $alunoFotoRequest)
     {
+        dd($alunoFotoRequest);
         $input = $request->validated();
         $data = $request->all();
         // $aluno = $this->alunoService->store($input, $data);

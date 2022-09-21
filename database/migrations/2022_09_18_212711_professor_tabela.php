@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('tb_professores', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('email')->unique();
+            $table->string('email', 100)->unique();
             $table->string('professor_cpf', 11)->unique();
-            $table->string('professor_rg');
+            $table->string('professor_rg', 15);
             $table->string('professor_foto');
             $table->string('estado_civil', 10); 
             $table->string('sexo', 10); 
@@ -33,8 +33,8 @@ return new class extends Migration
 
             //DADOS BANCARIOS
             $table->string('banco');
-            $table->integer('numero_conta');
-            $table->integer('agencia');
+            $table->string('numero_conta');
+            $table->string('agencia');
 
             $table->timestamps();
         });
