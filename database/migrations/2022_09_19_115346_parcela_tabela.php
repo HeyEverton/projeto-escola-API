@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_pagamentos', function (Blueprint $table) {
+        Schema::create('tb_parcelas', function (Blueprint $table) {
             $table->id();
             $table->integer('num_parcelas');
             $table->integer('valor_parcela');
             $table->date('data_vencimento');
-            $table->string('status');
+            $table->string('status', 30);
             $table->unsignedBigInteger('aluno_id');
 
             $table->foreign('aluno_id')->references('id')->on('tb_alunos');
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_pagamentos');
+        Schema::dropIfExists('tb_parcelas');
     }
 };

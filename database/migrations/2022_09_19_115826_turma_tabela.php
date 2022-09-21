@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('tb_turmas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('nome', 50);
             $table->integer('turno');
             $table->date('data_inicio');
             $table->date('data_termino');
             $table->integer('qt_max_alunos');
+            $table->integer('qt_atual_alunos');
             $table->time('horaria_entrada');
             $table->time('horaria_saida');
             $table->integer('modalidade');
