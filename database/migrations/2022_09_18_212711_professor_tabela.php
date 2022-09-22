@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('email', 100)->unique();
-            $table->string('professor_cpf', 11)->unique();
+            $table->string('professor_cpf', 15)->unique();
             $table->string('professor_rg', 15);
             $table->string('professor_foto');
             $table->string('estado_civil', 10); 

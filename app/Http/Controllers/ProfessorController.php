@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\FileNotSend;
 use App\Http\Requests\CreateProfessorFotoRequest;
 use App\Http\Requests\CreateProfessorRequest;
+use App\Http\Resources\ProfessorResource;
 use App\Models\Professor;
 use App\Services\ProfessorService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfessorController extends Controller
 {
@@ -21,7 +25,9 @@ class ProfessorController extends Controller
      */
     public function index()
     {
-        //
+        $professores = $this->professor->select()->paginate();
+
+        return response()->json($professores, 200);
     }
 
     /**
@@ -34,25 +40,23 @@ class ProfessorController extends Controller
     {
         $input = $request->validated();
         $data = $request->all();
-        dd($data);
+        // $aluno = $this->professorService->store($input, $request, $data);
+        
+        if ($professorFotoRequest->hasFile('professor_foto')) {
+            if ($request->file('professor_foto')->isValid()) {
+                $professorFoto = $professorFotoRequest->file('professor_foto')->store('fotos-professores', 'public');
+                
+                $url = asset(Storage::url($professorFoto));
+                
+                $data['professor_foto'] = $url;
 
-        $professorFoto = $professorFotoRequest->file('professor_foto');
-        try {
-            $arquivo = '';
-            if ($professorFoto) {
-                if ($request->file('professor_foto')->isValid()) {
-                    $extensaoArquivo = $professorFoto->getClientOriginalExtension();
-                    $nomeProfessor = $request->get('nome');
-                    $arquivo = $professorFoto->storeAs('fotosProfessores', "{$nomeProfessor}" .  "." . "{$extensaoArquivo}");
-                }
+                $professor = $this->professor->create($data);
+                $resource = new ProfessorResource($professor);
+
+                return $resource;
             }
-            $data['aluno_foto'] = $arquivo;
-
-            $this->professor->create($data);
-            return response()->json([
-                'data' => 'foi cadastrado',
-            ]);
-        } catch (\Exception $e) {
+        } else {
+            throw new FileNotSend();
         }
 
     }
@@ -65,7 +69,12 @@ class ProfessorController extends Controller
      */
     public function show($id)
     {
-        //
+        $professor = $this->professor->find($id);
+        if (empty($professor)) {
+            throw new ModelNotFoundException();
+        }
+
+        return new ProfessorResource($professor);
     }
 
     /**
@@ -75,9 +84,36 @@ class ProfessorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateProfessorRequest $request, $id, CreateProfessorFotoRequest $professorFotoRequest)
     {
-        //
+        $input = $request->validated();
+        $data = $request->all();
+        // $aluno = $this->professorService->update($input, $request, $data);
+
+        
+        $professor = $this->professor->find($id);
+        $professor->fill($request->except('professor_foto'));
+        dd($professor);
+        if ($professorFotoRequest->hasFile('professor_foto')) {
+            if ($request->file('professor_foto')->isValid()) {
+                $professorFoto = $professorFotoRequest->file('professor_foto')->store('fotos-professores', 'public');
+                
+                $url = asset(Storage::url($professorFoto));
+                
+                $data['professor_foto'] = $url;
+                $professor = $this->professor->update($data);
+
+                // $resource = new ProfessorResource($professor);
+
+                return $professor;
+                // return $resource;
+                // return response()->json([
+                //     'message' => 'atualizou'
+                // ]);
+            }
+        } else {
+            throw new FileNotSend();
+        }
     }
 
     /**
@@ -88,6 +124,14 @@ class ProfessorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $professor = $this->professor->find($id);
+        if (empty($professor)) {
+            throw new ModelNotFoundException();
+        }
+        $professor->delete();
+
+        return response()->json([
+            'message' => 'Excluido com sucesos',
+        ]);
     }
 }

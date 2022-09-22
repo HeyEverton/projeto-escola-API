@@ -30,7 +30,6 @@ class CreateProfessorRequest extends FormRequest
             'professor_rg' => 'required|string',
             'estado_civil' => 'required|string',
             'sexo' => 'required|max:10',
-            'nacionalidade' => 'required|max:40',
             'formacao' => 'required|max:35|string',
             'tel_contato' => 'required|string',
             'nome_rua' => 'required|string',

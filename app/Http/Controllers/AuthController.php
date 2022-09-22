@@ -27,7 +27,6 @@ class AuthController extends Controller
     {
         
         $input = $request->validated();
-        dd($input['senha']);
         $user = $this->authService
             ->register(
                 $input['nome'],

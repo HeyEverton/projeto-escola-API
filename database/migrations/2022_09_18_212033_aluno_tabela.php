@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tb_alunos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('cpf_aluno', 11)->unique();
+            $table->string('cpf_aluno', 15)->unique();
             $table->string('aluno_foto');
             $table->string('email')->unique();
             $table->string('sexo', 10);

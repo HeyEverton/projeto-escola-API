@@ -38,8 +38,12 @@ Route::prefix('v1/')->group(function() {
 
     //PROFESSOR
     
+    Route::get('professores', [ProfessorController::class, 'index']);
     Route::post('professores', [ProfessorController::class, 'store']);
-
+    Route::get('professores/{id}', [ProfessorController::class, 'show']);
+    Route::put('professores/{id}', [ProfessorController::class, 'update']);
+    Route::delete('professores/{id}', [ProfessorController::class, 'destroy']);
+    
     //CURSO
     Route::post('cursos', [CursoController::class, 'store']);
     Route::get('cursos', [CursoController::class, 'index']);
