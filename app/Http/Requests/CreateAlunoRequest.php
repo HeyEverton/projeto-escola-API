@@ -31,7 +31,7 @@ class CreateAlunoRequest extends FormRequest
             'nacionalidade' => 'required|max:40',
             'escolaridade' => 'required|max:35',
             'data_nasc' => 'required',
-            'whataspp' => 'sometimes',
+            'whatsapp' => 'sometimes',
             'tel_contato' => 'required|string',
             'nome_rua' => 'required|string',
             'numero_residencia' => 'required|string',

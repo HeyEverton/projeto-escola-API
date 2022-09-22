@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateAlunoFotoRequest;
-use App\Http\Requests\CreateAlunoRequest;
+use App\Exceptions\FileNotSend;
+use App\Http\Requests\{CreateAlunoFotoRequest, CreateAlunoRequest};
 use App\Http\Resources\AlunoResource;
 use App\Models\Aluno;
 use App\Services\AlunoService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AlunoController extends Controller
 {
@@ -36,31 +37,39 @@ class AlunoController extends Controller
      */
     public function store(CreateAlunoRequest $request, CreateAlunoFotoRequest $alunoFotoRequest)
     {
-        dd($alunoFotoRequest);
         $input = $request->validated();
         $data = $request->all();
-        // $aluno = $this->alunoService->store($input, $data);
+        // $aluno = $this->alunoService->store($input, $request, $data);
+        
 
-        $alunoFoto = $alunoFotoRequest->file('aluno_foto');
-        try {
-            $arquivo = '';
-            if ($alunoFoto) {
-                if ($request->file('aluno_foto')->isValid()) {
-                    $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-                    $nomeAluno = $request->get('nome');
-                    $arquivo = $alunoFoto->storeAs('fotoAluno', "{$nomeAluno}" .  "." . "{$extensaoArquivo}");
-                }
-            }
-            $data['aluno_foto'] = $arquivo;
+        // if ($alunoFotoRequest->hasFile('aluno_foto')) {
 
-            $this->aluno->create($data);
+        //     // $alunoFoto =;
 
-            // return new AlunoResource($data);
-            return response()->json([
-                'data' => 'foi cadastrado',
-            ]);
-        } catch (\Exception $e) {
-        }
+        //     // $arquivo = '';
+        //     if ($request->file('aluno_foto')->isValid()) {
+
+        //         // $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
+        //         // $nomeAluno = $request->get('nome');
+        //         // $arquivo = 
+        //         $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos','public');
+
+        //         $url = asset(Storage::url($alunoFoto));
+
+        //         $data['aluno_foto'] = $url;
+        //         $aluno = $this->aluno->select();
+        //         $aluno = $this->aluno->create($data);
+
+        //         return response()->json([
+        //             'data' => $aluno
+        //         ]);
+        //     }
+
+
+
+        // } else {
+        //     throw new FileNotSend();
+        // }
     }
 
     /**
@@ -90,30 +99,26 @@ class AlunoController extends Controller
     {
         $input = $request->validated();
         $data = $request->all();
+        // $aluno = $this->alunoService->update($input, $data);
+        dd($request->all());
 
-        // dd($data);
-        
-        $alunoFoto = $alunoFotoRequest->file('aluno_foto');
-        try {
-            $aluno = $this->aluno->find($id);
-            
-            $arquivo = '';
-            if ($alunoFoto) {
-                if ($request->file('aluno_foto')->isValid()) {
-                    $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-                    $nomeAluno = $request->get('nome');
-                    $arquivo = $alunoFoto->storeAs('fotoAluno', "{$nomeAluno}" .  "." . "{$extensaoArquivo}");
-                }
+
+        if ($alunoFotoRequest->hasFile('aluno_foto')) {
+
+            if ($request->file('aluno_foto')->isValid()) {
+
+                $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos','public');
+                $url = asset(Storage::url($alunoFoto));
+                
+                $data['aluno_foto'] = $url;
+               
+                $aluno = $this->aluno->update($data);
+                return response()->json([
+                    'data' => $aluno
+                ]);
             }
-            $data['aluno_foto'] = $arquivo;
-
-            $this->aluno->update($aluno);
-
-            // return new AlunoResource($data);
-            return response()->json([
-                'message' => 'foi editado',
-            ]);
-        } catch (\Exception $e) {
+        } else {
+            throw new FileNotSend();
         }
     }
 
