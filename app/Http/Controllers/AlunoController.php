@@ -57,7 +57,6 @@ class AlunoController extends Controller
                 $url = asset(Storage::url($alunoFoto));
 
                 $data['aluno_foto'] = $url;
-                $aluno = $this->aluno->select();
                 $aluno = $this->aluno->create($data);
 
                 return response()->json([
