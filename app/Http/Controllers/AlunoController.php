@@ -58,10 +58,9 @@ class AlunoController extends Controller
 
                 $data['aluno_foto'] = $url;
                 $aluno = $this->aluno->create($data);
+                $resource = new AlunoResource($aluno);
+                return $resource;
 
-                return response()->json([
-                    'data' => $aluno
-                ]);
             }
 
 
