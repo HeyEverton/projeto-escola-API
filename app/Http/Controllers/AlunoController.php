@@ -42,34 +42,34 @@ class AlunoController extends Controller
         // $aluno = $this->alunoService->store($input, $request, $data);
         
 
-        // if ($alunoFotoRequest->hasFile('aluno_foto')) {
+        if ($alunoFotoRequest->hasFile('aluno_foto')) {
 
-        //     // $alunoFoto =;
+            // $alunoFoto =;
 
-        //     // $arquivo = '';
-        //     if ($request->file('aluno_foto')->isValid()) {
+            // $arquivo = '';
+            if ($request->file('aluno_foto')->isValid()) {
 
-        //         // $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-        //         // $nomeAluno = $request->get('nome');
-        //         // $arquivo = 
-        //         $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos','public');
+                // $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
+                // $nomeAluno = $request->get('nome');
+                // $arquivo = 
+                $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos','public');
 
-        //         $url = asset(Storage::url($alunoFoto));
+                $url = asset(Storage::url($alunoFoto));
 
-        //         $data['aluno_foto'] = $url;
-        //         $aluno = $this->aluno->select();
-        //         $aluno = $this->aluno->create($data);
+                $data['aluno_foto'] = $url;
+                $aluno = $this->aluno->select();
+                $aluno = $this->aluno->create($data);
 
-        //         return response()->json([
-        //             'data' => $aluno
-        //         ]);
-        //     }
+                return response()->json([
+                    'data' => $aluno
+                ]);
+            }
 
 
 
-        // } else {
-        //     throw new FileNotSend();
-        // }
+        } else {
+            throw new FileNotSend();
+        }
     }
 
     /**
