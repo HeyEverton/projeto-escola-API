@@ -39,8 +39,7 @@ class AlunoController extends Controller
     {
         $input = $request->validated();
         $data = $request->all();
-        // $aluno = $this->alunoService->store($input, $request, $data);
-        
+        // $aluno = $this->alunoService->store($input, $alunoFotoRequest, $request);
 
         if ($alunoFotoRequest->hasFile('aluno_foto')) {
 
@@ -52,19 +51,17 @@ class AlunoController extends Controller
                 // $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
                 // $nomeAluno = $request->get('nome');
                 // $arquivo = 
-                $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos','public');
+                $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos', 'public');
 
                 $url = asset(Storage::url($alunoFoto));
 
                 $data['aluno_foto'] = $url;
+                
                 $aluno = $this->aluno->create($data);
+
                 $resource = new AlunoResource($aluno);
                 return $resource;
-
             }
-
-
-
         } else {
             throw new FileNotSend();
         }
@@ -98,21 +95,24 @@ class AlunoController extends Controller
         $input = $request->validated();
         $data = $request->all();
         // $aluno = $this->alunoService->update($input, $data);
-        dd($request->all());
-
-
+   
+        $fotoAluno = $alunoFotoRequest->file('aluno_foto');
+        $arquivo = '';
         if ($alunoFotoRequest->hasFile('aluno_foto')) {
-
+            
             if ($request->file('aluno_foto')->isValid()) {
-
-                $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos','public');
-                $url = asset(Storage::url($alunoFoto));
+                
+                $arquivo = $fotoAluno->store('fotos-alunos', 'public');
+                $url = asset(Storage::url($fotoAluno));
                 
                 $data['aluno_foto'] = $url;
-               
-                $aluno = $this->aluno->update($data);
+                $url = $arquivo;                
+                $aluno = $this->aluno->findOrFail($id)->update($data); 
+                dd($aluno);
+                
+
                 return response()->json([
-                    'data' => $aluno
+                    'data' => 'foi atualizado '
                 ]);
             }
         } else {
