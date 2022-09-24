@@ -30,8 +30,8 @@ class Aluno extends Model
         'estado',
     ];
 
-    // public function pagamentos()
-    // {
-    //     return $this->hasMany(Pagamento::class);
-    // }
+    public function pagamentos()
+    {
+        return $this->hasMany(Pagamento::class);
+    }
 }

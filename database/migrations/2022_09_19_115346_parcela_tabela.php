@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('tb_parcelas', function (Blueprint $table) {
             $table->id();
             $table->integer('num_parcelas');
-            $table->integer('valor_parcela');
-            $table->date('data_vencimento');
+            $table->double('valor_parcela');
+            $table->string('data_vencimento');
             $table->string('status', 30);
             $table->unsignedBigInteger('aluno_id');
 

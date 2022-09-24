@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Pagamento extends Model
 {
     use HasFactory;
+    protected $table = 'tb_pagamentos';
+    
     protected $fillable = [
         'num_parcelas',
         'valor_parcela',
@@ -18,5 +20,10 @@ class Pagamento extends Model
     public function aluno()
     {
         return $this->belongsTo(Aluno::class);
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class);
     }
 }

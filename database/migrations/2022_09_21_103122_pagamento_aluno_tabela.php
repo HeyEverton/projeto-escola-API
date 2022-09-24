@@ -16,11 +16,13 @@ return new class extends Migration
         Schema::create('tb_pagamentos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('recebeu_id');
-            $table->date('data_pagamento');
-            $table->string('valor_pago', 30);
+            $table->unsignedBigInteger('aluno_id');
+            $table->string('data_pagamento');
+            $table->double('valor_pago');
             $table->text('observacao');
 
             $table->foreign('recebeu_id')->references('id')->on('tb_usuarios');
+            $table->foreign('aluno_id')->references('id')->on('tb_alunos');
             $table->timestamps();
         });
     }
