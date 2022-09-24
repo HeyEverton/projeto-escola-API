@@ -21,9 +21,9 @@ return new class extends Migration
             $table->foreign('turma_id')->references('id')->on('tb_turmas');
             
             $table->double('valor_curso');
-            $table->string('desconto_curso', 20)->nullable();
+            $table->string('desconto_curso', 10)->nullable();
+            $table->date('data_vencimento');
             $table->string('forma_pagamento', 20);
-            $table->string('data_vencimento', 30);
             $table->tinyInteger('qtd_parcelas');
 
             $table->timestamps();

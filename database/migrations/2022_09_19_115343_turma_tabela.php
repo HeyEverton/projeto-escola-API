@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 50);
             $table->string('turno', 15); 
-            $table->string('data_inicio', 15);
-            $table->string('data_termino', 15);
+            $table->date('data_inicio', 15);
+            $table->date('data_termino', 15);
             $table->integer('qt_max_alunos');
             $table->integer('qt_atual_alunos');
-            $table->string('horario_entrada', 10); 
-            $table->string('horario_saida', 10 );
+            $table->time('horario_entrada'); 
+            $table->time('horario_saida');
             $table->string('modalidade', 20);
             $table->string('status', 13)->default('Em aberto'); 
 

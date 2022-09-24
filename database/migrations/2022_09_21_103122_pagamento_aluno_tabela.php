@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('aluno_id');
             $table->string('data_pagamento');
             $table->double('valor_pago');
+            $table->string('status', 30);
             $table->text('observacao');
 
             $table->foreign('recebeu_id')->references('id')->on('tb_usuarios');

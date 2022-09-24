@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\ParcelaController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TurmaController;
 use Illuminate\Http\Request;
@@ -28,8 +29,6 @@ Route::prefix('v1/')->group(function() {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('cadastro', [AuthController::class, 'register']);
 
-
-
     //ALUNO
     Route::get('alunos', [AlunoController::class, 'index']);
     Route::post('alunos', [AlunoController::class, 'store']);
@@ -37,8 +36,7 @@ Route::prefix('v1/')->group(function() {
     Route::put('alunos/{id}', [AlunoController::class, 'update']);
     Route::delete('alunos/{id}', [AlunoController::class, 'destroy']);
 
-    //PROFESSOR
-    
+    //PROFESSOR    
     Route::get('professores', [ProfessorController::class, 'index']);
     Route::post('professores', [ProfessorController::class, 'store']);
     Route::get('professores/{id}', [ProfessorController::class, 'show']);
@@ -51,13 +49,13 @@ Route::prefix('v1/')->group(function() {
     Route::get('cursos/{id}', [CursoController::class, 'show']);
     Route::put('cursos/{id}', [CursoController::class, 'update']);
     Route::delete('cursos/{id}', [CursoController::class, 'destroy']);
+
     //TURMA
     Route::resource('turmas',  TurmaController::class) ;
     Route::get('turmas/editar/{id}', [TurmaController::class, 'showRelation']);
 
-    // Route::get('turmas', [TurmaController::class, 'index']);
-    // Route::get('turmas{id}', [TurmaController::class, 'show']);
-    // Route::post('turmas', [TurmaController::class, 'store']);
-    // Route::put('turmas/{id}', [TurmaController::class, 'update']);
-    // Route::delete('turmas/{id}', [TurmaController::class, 'destroy']);
+    //PARCELAS
+    Route::resource('parcelas', ParcelaController::class);
+    Route::get('parcelas/aluno/matricula/{id}', [ParcelaController::class, 'showRelation']);;
+   
 });

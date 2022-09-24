@@ -15,13 +15,15 @@ return new class extends Migration
     {
         Schema::create('tb_parcelas', function (Blueprint $table) {
             $table->id();
-            $table->integer('num_parcelas');
+            $table->integer('num_parcela');
             $table->double('valor_parcela');
-            $table->string('data_vencimento');
-            $table->string('status', 30);
+            $table->date('data_vencimento');
+            
             $table->unsignedBigInteger('aluno_id');
+            $table->unsignedBigInteger('matricula_id');
 
             $table->foreign('aluno_id')->references('id')->on('tb_alunos');
+            $table->foreign('matricula_id')->references('id')->on('tb_matriculas');
 
             $table->timestamps();
         });

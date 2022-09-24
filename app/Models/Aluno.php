@@ -34,4 +34,14 @@ class Aluno extends Model
     {
         return $this->hasMany(Pagamento::class);
     }
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class);
+    }
+
+    public function parcelas()
+    {
+        return $this->hasMany(Parcela::class);
+    }
 }

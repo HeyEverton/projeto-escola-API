@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tb_professores', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('nome', 100);
             $table->string('email', 100)->unique();
             $table->string('professor_cpf', 15)->unique();
             $table->string('professor_rg', 15);
