@@ -15,6 +15,8 @@ class Matricula extends Model
         'data_vencimento',
         'forma_pagamento',
         'qtd_parcelas',
+        'aluno_id',
+        'turma_id',
     ];
 
     public function aluno()

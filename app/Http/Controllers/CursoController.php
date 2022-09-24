@@ -24,7 +24,6 @@ class CursoController extends Controller
     public function index()
     {
         $curso = $this->curso->select()->paginate();
-
         return response()->json($curso, 200);
     }
 
@@ -38,7 +37,6 @@ class CursoController extends Controller
     {
         $input = $request->validated();
         $curso = $this->curso->create($input);
-
         return new CursoResource($curso);
     }
 
@@ -54,7 +52,6 @@ class CursoController extends Controller
         if (empty($curso)) {
             throw new ModelNotFoundException();
         }
-
         return new CursoResource($curso);
     }
 
@@ -68,14 +65,11 @@ class CursoController extends Controller
     public function update(CursoUpdateRequest $request, $id)
     {
         $input = $request->validated();
-
         $curso = $this->curso->find($id);
         if(empty($curso)) {
             throw new ModelNotFoundException();
         }
-
         $curso->update($input);
-
         return new CursoResource($curso);
     }
 

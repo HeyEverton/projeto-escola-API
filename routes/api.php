@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\ParcelaController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TurmaController;
@@ -29,26 +30,18 @@ Route::prefix('v1/')->group(function() {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('cadastro', [AuthController::class, 'register']);
 
+    //MATRICULAS
+    Route::resource('matriculas', MatriculaController::class);
+    Route::get('matriculas/aluno/{id}', [MatriculaController::class, 'showRelations']);
+
     //ALUNO
-    Route::get('alunos', [AlunoController::class, 'index']);
-    Route::post('alunos', [AlunoController::class, 'store']);
-    Route::get('alunos/{id}', [AlunoController::class, 'show']);
-    Route::put('alunos/{id}', [AlunoController::class, 'update']);
-    Route::delete('alunos/{id}', [AlunoController::class, 'destroy']);
+    Route::resource('alunos', AlunoController::class);
 
     //PROFESSOR    
-    Route::get('professores', [ProfessorController::class, 'index']);
-    Route::post('professores', [ProfessorController::class, 'store']);
-    Route::get('professores/{id}', [ProfessorController::class, 'show']);
-    Route::put('professores/{id}', [ProfessorController::class, 'update']);
-    Route::delete('professores/{id}', [ProfessorController::class, 'destroy']);
+    Route::resource('professores', ProfessorController::class);
     
     //CURSO
-    Route::post('cursos', [CursoController::class, 'store']);
-    Route::get('cursos', [CursoController::class, 'index']);
-    Route::get('cursos/{id}', [CursoController::class, 'show']);
-    Route::put('cursos/{id}', [CursoController::class, 'update']);
-    Route::delete('cursos/{id}', [CursoController::class, 'destroy']);
+    Route::resource('cursos', CursoController::class);
 
     //TURMA
     Route::resource('turmas',  TurmaController::class) ;
