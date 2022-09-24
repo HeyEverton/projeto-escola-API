@@ -10,6 +10,7 @@ use App\Services\AlunoService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid as Uuid;
 
 class AlunoController extends Controller
 {
@@ -39,33 +40,10 @@ class AlunoController extends Controller
     {
         $input = $request->validated();
         $data = $request->all();
-        // $aluno = $this->alunoService->store($input, $alunoFotoRequest, $request);
-
-        if ($alunoFotoRequest->hasFile('aluno_foto')) {
-
-            // $alunoFoto =;
-
-            // $arquivo = '';
-            if ($request->file('aluno_foto')->isValid()) {
-
-                // $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-                // $nomeAluno = $request->get('nome');
-                // $arquivo = 
-                $alunoFoto = $alunoFotoRequest->file('aluno_foto')->store('fotos-alunos', 'public');
-
-                $url = asset(Storage::url($alunoFoto));
-
-                $data['aluno_foto'] = $url;
-                
-                $aluno = $this->aluno->create($data);
-
-                $resource = new AlunoResource($aluno);
-                return $resource;
-            }
-        } else {
-            throw new FileNotSend();
-        }
+        $aluno = $this->alunoService->store($input, $alunoFotoRequest, $request);
+        return new AlunoResource($aluno);
     }
+
 
     /**
      * Display the specified resource.
@@ -90,34 +68,11 @@ class AlunoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateAlunoRequest $request, $id, CreateAlunoFotoRequest $alunoFotoRequest)
+    public function update(CreateAlunoRequest $request, $id)
     {
         $input = $request->validated();
-        $data = $request->all();
-        // $aluno = $this->alunoService->update($input, $data);
-   
-        $fotoAluno = $alunoFotoRequest->file('aluno_foto');
-        $arquivo = '';
-        if ($alunoFotoRequest->hasFile('aluno_foto')) {
-            
-            if ($request->file('aluno_foto')->isValid()) {
-                
-                $arquivo = $fotoAluno->store('fotos-alunos', 'public');
-                $url = asset(Storage::url($fotoAluno));
-                
-                $data['aluno_foto'] = $url;
-                $url = $arquivo;                
-                $aluno = $this->aluno->findOrFail($id)->update($data); 
-                dd($aluno);
-                
-
-                return response()->json([
-                    'data' => 'foi atualizado '
-                ]);
-            }
-        } else {
-            throw new FileNotSend();
-        }
+        $aluno = $this->alunoService->edit($input, $request, $id);
+        return new AlunoResource($aluno);
     }
 
     /**

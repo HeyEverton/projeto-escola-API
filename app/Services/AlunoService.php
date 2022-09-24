@@ -4,44 +4,71 @@ namespace App\Services;
 
 use App\Exceptions\EmailHasBeenTaken;
 use App\Exceptions\FileNotSend;
+use App\Exceptions\InvalidCpf;
 use App\Http\Requests\CreateAlunoFotoRequest;
 use App\Http\Requests\CreateAlunoRequest;
+use App\Http\Resources\AlunoResource;
 use App\Models\Aluno;
 use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 class AlunoService
 {
-
-    public function store(array $input, CreateAlunoRequest $alunoFotoRequest, CreateAlunoRequest $request)
+    public function __construct(private Aluno $aluno)
     {
-       dd('teste chegou service');
+    }
 
-        if ($alunoFotoRequest->hasFile('aluno_foto')) {
+    public function store(array $input, CreateAlunoFotoRequest $alunoFotoRequest, CreateAlunoRequest $request)
+    {
+        $input = $request->validated();
+        $data = $request->all();
 
-            $alunoFoto = $alunoFotoRequest->file('aluno_foto');
+        $alunoFoto = $alunoFotoRequest->file('aluno_foto');
 
-            // $arquivo = '';
+        $arquivo = '';
 
-                if ($request->file('aluno_foto')->isValid()) {
+        if ($alunoFoto) {
+            if ($request->file('aluno_foto')->isValid()) {
+                $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
+                $nome = Uuid::uuid6();
+                $arquivo = $alunoFoto->storeAs('alunoFoto', "{$nome}" .  "." . "{$extensaoArquivo}");
+            }
+        }
+        $data['aluno_foto'] = $arquivo;
+        // dd($data);
+        $aluno =  $this->aluno->create($data);
 
-                    // $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-                    // $nomeAluno = $request->get('nome');
-                    // $arquivo = 
-                    $alunoFoto->store('fotoAluno');
+        return new AlunoResource($aluno);
+    }
 
-                    $url = Storage::url($alunoFoto);
-                    dd($url);
-                }
-            
-            $data['aluno_foto'] = $alunoFoto;
+    public function edit(array $input, CreateAlunoRequest $request, $id)
+    {
+        $input = $request->validated();
 
-            $aluno = $this->aluno->create($data);
+        $aluno = $this->aluno->findOrFail($id);
+        $alunoEmail = Aluno::where('email', $input['email'])->exists();
+        $alunoCpf = Aluno::where('cpf_aluno', $input['cpf_aluno'])->exists();
 
-            return response()->json([
-                'data' => $aluno
-            ]);
+        if (!empty($alunoEmail)) {
+            throw new EmailHasBeenTaken();
+        }
+        if (!empty($alunoCpf)) {
+            throw new InvalidCpf();
+        }
+        $aluno->fill($request->except('aluno_foto'));
+        if ($foto = $request->hasFile('aluno_foto')) {
+
+            $foto = $request->file('aluno_foto');
+            $extensaoArquivo = $foto->getClientOriginalExtension();
+            $nomeArquivo = Uuid::uuid6() . '.' . $extensaoArquivo;
+            $caminhoArquivo = public_path() . '/img/alunos/';
+            $foto->move($caminhoArquivo, $nomeArquivo);
+            $aluno->aluno_foto = $nomeArquivo;
         } else {
             throw new FileNotSend();
         }
+        $aluno->save();
+
+        return $aluno;
     }
 }

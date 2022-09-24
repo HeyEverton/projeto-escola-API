@@ -17,4 +17,9 @@ class Curso extends Model
         'preco',
         'carga_horaria',
     ];
+
+    public function turmas()
+    {
+        return $this->hasMany(Turma::class);
+    }
 }

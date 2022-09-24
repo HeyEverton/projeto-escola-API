@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CursoRequest;
-use App\Http\Requests\CursoUpdateRequest;
-use App\Http\Resources\CursoResource;
-use App\Models\Curso;
-use App\Services\CursoService;
+use App\Http\Requests\TurmaRequest;
+use App\Http\Resources\TurmaResource;
+use App\Models\Turma;
+use App\Services\TurmaService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
-class CursoController extends Controller
+class TurmaController extends Controller
 {
-    public function __construct(private Curso $curso)
+
+    public function __construct(private TurmaService $turmaService, private Turma $turma)
     {
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +22,9 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $curso = $this->curso->select()->paginate();
+        $turmas = $this->turma->select()->paginate();
 
-        return response()->json($curso, 200);
+        return response()->json($turmas, 200);
     }
 
     /**
@@ -34,12 +33,11 @@ class CursoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CursoRequest $request)
+    public function store(TurmaRequest $request)
     {
         $input = $request->validated();
-        $curso = $this->curso->create($input);
-
-        return new CursoResource($curso);
+        $turma = $this->turma->create($input);
+        return new TurmaResource($turma);
     }
 
     /**
@@ -50,12 +48,23 @@ class CursoController extends Controller
      */
     public function show($id)
     {
-        $curso = $this->curso->find($id);
-        if (empty($curso)) {
+        $turma = $this->turma->find($id);
+        if (empty($turma)) {
             throw new ModelNotFoundException();
         }
+        return new TurmaResource($turma);
+    }
 
-        return new CursoResource($curso);
+    public function showRelation($id)
+    {
+        $turma = $this->turma->with('professor')->with('curso')->find($id);
+
+        if (empty($turma)) {
+            throw new ModelNotFoundException();
+        }
+        return response()->json([
+            'data' => $turma
+        ]);
     }
 
     /**
@@ -65,18 +74,16 @@ class CursoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CursoUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $input = $request->validated();
 
-        $curso = $this->curso->find($id);
-        if(empty($curso)) {
+        $turma = $this->turma->find($id);
+        if (empty($turma)) {
             throw new ModelNotFoundException();
         }
-
-        $curso->update($input);
-
-        return new CursoResource($curso);
+        $turma->update($input);
+        return new TurmaResource($turma);
     }
 
     /**
@@ -87,14 +94,14 @@ class CursoController extends Controller
      */
     public function destroy($id)
     {
-        $curso = $this->curso->find($id);
-        if (empty($curso)) {
+        $turma = $this->turma->find($id);
+        if (empty($turma)) {
             throw new ModelNotFoundException();
         }
-        $curso->delete();
+        $turma->delete();
 
         return response()->json([
-            'msg' => 'excluido com sucesso',
+            'message' => 'Excluido com sucesso.',
         ]);
     }
 }

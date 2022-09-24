@@ -31,4 +31,9 @@ class Professor extends Model
         'numero_conta',
         'agencia',
     ];
+
+    public function turmas()
+    {
+        return $this->hasMany(Turma::class);
+    }
 }

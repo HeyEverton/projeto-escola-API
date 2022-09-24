@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('tb_turmas', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 50);
-            $table->integer('turno');
-            $table->date('data_inicio');
-            $table->date('data_termino');
+            $table->string('turno', 15); 
+            $table->string('data_inicio', 15);
+            $table->string('data_termino', 15);
             $table->integer('qt_max_alunos');
             $table->integer('qt_atual_alunos');
-            $table->time('horaria_entrada');
-            $table->time('horaria_saida');
-            $table->integer('modalidade');
+            $table->string('horario_entrada', 10); 
+            $table->string('horario_saida', 10 );
+            $table->string('modalidade', 20);
             $table->string('status', 30);
 
             $table->unsignedBigInteger('professor_id');

@@ -4,6 +4,7 @@ use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ProfessorController;
+use App\Http\Controllers\TurmaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,4 +51,13 @@ Route::prefix('v1/')->group(function() {
     Route::get('cursos/{id}', [CursoController::class, 'show']);
     Route::put('cursos/{id}', [CursoController::class, 'update']);
     Route::delete('cursos/{id}', [CursoController::class, 'destroy']);
+    //TURMA
+    Route::resource('turmas',  TurmaController::class) ;
+    Route::get('turmas/editar/{id}', [TurmaController::class, 'showRelation']);
+
+    // Route::get('turmas', [TurmaController::class, 'index']);
+    // Route::get('turmas{id}', [TurmaController::class, 'show']);
+    // Route::post('turmas', [TurmaController::class, 'store']);
+    // Route::put('turmas/{id}', [TurmaController::class, 'update']);
+    // Route::delete('turmas/{id}', [TurmaController::class, 'destroy']);
 });
