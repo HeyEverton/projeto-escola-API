@@ -41,7 +41,6 @@ class TurmaController extends Controller
         return response()->json([
             'data' => $turma
         ], 200);
-        // return new TurmaResource($turma);
     }
 
     /**
@@ -56,7 +55,9 @@ class TurmaController extends Controller
         if (empty($turma)) {
             throw new ModelNotFoundException();
         }
-        return new TurmaResource($turma);
+        return response()->json([
+            'data' => $turma
+        ], 200);
     }
 
     public function showRelation($id)
@@ -87,7 +88,9 @@ class TurmaController extends Controller
             throw new ModelNotFoundException();
         }
         $turma->update($input);
-        return new TurmaResource($turma);
+        return response()->json([
+            'data' => $turma
+        ], 200);
     }
 
     /**

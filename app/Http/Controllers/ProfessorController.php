@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfessorController extends Controller
 {
-    public function __construct(private Professor $professor, ProfessorService $professorService)
+    public function __construct(private Professor $professor, private ProfessorService $professorService)
     {
     }
 
@@ -39,26 +39,8 @@ class ProfessorController extends Controller
     public function store(CreateProfessorRequest $request, CreateProfessorFotoRequest $professorFotoRequest)
     {
         $input = $request->validated();
-        $data = $request->all();
-        // $aluno = $this->professorService->store($input, $request, $data);
-        
-        if ($professorFotoRequest->hasFile('professor_foto')) {
-            if ($request->file('professor_foto')->isValid()) {
-                $professorFoto = $professorFotoRequest->file('professor_foto')->store('fotos-professores', 'public');
-                
-                $url = asset(Storage::url($professorFoto));
-                
-                $data['professor_foto'] = $url;
-
-                $professor = $this->professor->create($data);
-                $resource = new ProfessorResource($professor);
-
-                return $resource;
-            }
-        } else {
-            throw new FileNotSend();
-        }
-
+        $professor = $this->professorService->store($input, $request, $professorFotoRequest);
+        return new ProfessorResource($professor);
     }
 
     /**
@@ -73,7 +55,6 @@ class ProfessorController extends Controller
         if (empty($professor)) {
             throw new ModelNotFoundException();
         }
-
         return new ProfessorResource($professor);
     }
 
@@ -84,36 +65,11 @@ class ProfessorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateProfessorRequest $request, $id, CreateProfessorFotoRequest $professorFotoRequest)
+    public function update(CreateProfessorRequest $request, $id)
     {
         $input = $request->validated();
-        $data = $request->all();
-        // $aluno = $this->professorService->update($input, $request, $data);
-
-        
-        $professor = $this->professor->find($id);
-        $professor->fill($request->except('professor_foto'));
-        dd($professor);
-        if ($professorFotoRequest->hasFile('professor_foto')) {
-            if ($request->file('professor_foto')->isValid()) {
-                $professorFoto = $professorFotoRequest->file('professor_foto')->store('fotos-professores', 'public');
-                
-                $url = asset(Storage::url($professorFoto));
-                
-                $data['professor_foto'] = $url;
-                $professor = $this->professor->update($data);
-
-                // $resource = new ProfessorResource($professor);
-
-                return $professor;
-                // return $resource;
-                // return response()->json([
-                //     'message' => 'atualizou'
-                // ]);
-            }
-        } else {
-            throw new FileNotSend();
-        }
+        $professor = $this->professorService->edit($input, $request, $id);
+        return new ProfessorResource($professor);
     }
 
     /**
@@ -129,9 +85,8 @@ class ProfessorController extends Controller
             throw new ModelNotFoundException();
         }
         $professor->delete();
-
         return response()->json([
-            'message' => 'Excluido com sucesos',
+            'message' => 'Excluido com sucesso.',
         ]);
     }
 }

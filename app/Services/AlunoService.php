@@ -25,20 +25,25 @@ class AlunoService
 
         $alunoFoto = $alunoFotoRequest->file('aluno_foto');
 
+        $alunoEmail = Aluno::where('email', $input['email'])->exists();
+        $alunoCpf = Aluno::where('cpf_aluno', $input['cpf_aluno'])->exists();
+        
+        if (!empty($alunoEmail)) { throw new EmailHasBeenTaken(); }
+        if (!empty($alunoCpf)) { throw new InvalidCpf(); }
+
         $arquivo = '';
 
         if ($alunoFoto) {
             if ($request->file('aluno_foto')->isValid()) {
                 $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
                 $nome = Uuid::uuid6();
-                $arquivo = $alunoFoto->storeAs('alunoFoto', "{$nome}" .  "." . "{$extensaoArquivo}");
+                $arquivo = $alunoFoto->storeAs('alunos-fotos', "{$nome}" .  "." . "{$extensaoArquivo}");
             }
         }
         $data['aluno_foto'] = $arquivo;
-        // dd($data);
         $aluno =  $this->aluno->create($data);
 
-        return new AlunoResource($aluno);
+        return $aluno;
     }
 
     public function edit(array $input, CreateAlunoRequest $request, $id)
@@ -49,19 +54,17 @@ class AlunoService
         $alunoEmail = Aluno::where('email', $input['email'])->exists();
         $alunoCpf = Aluno::where('cpf_aluno', $input['cpf_aluno'])->exists();
 
-        if (!empty($alunoEmail)) {
-            throw new EmailHasBeenTaken();
-        }
-        if (!empty($alunoCpf)) {
-            throw new InvalidCpf();
-        }
+        if (!empty($alunoEmail)) { throw new EmailHasBeenTaken(); }
+        if (!empty($alunoCpf)) { throw new InvalidCpf(); }
+
         $aluno->fill($request->except('aluno_foto'));
+
         if ($foto = $request->hasFile('aluno_foto')) {
 
             $foto = $request->file('aluno_foto');
             $extensaoArquivo = $foto->getClientOriginalExtension();
             $nomeArquivo = Uuid::uuid6() . '.' . $extensaoArquivo;
-            $caminhoArquivo = public_path() . '/img/alunos/';
+            $caminhoArquivo = public_path() . '/storage/alunos_fotos/';
             $foto->move($caminhoArquivo, $nomeArquivo);
             $aluno->aluno_foto = $nomeArquivo;
         } else {
