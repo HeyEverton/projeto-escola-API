@@ -12,9 +12,10 @@ use Illuminate\Http\Request;
 class TurmaController extends Controller
 {
 
-    public function __construct(private TurmaService $turmaService, private Turma $turma)
+    public function __construct(private Turma $turma)
     {
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +38,10 @@ class TurmaController extends Controller
     {
         $input = $request->validated();
         $turma = $this->turma->create($input);
-        return new TurmaResource($turma);
+        return response()->json([
+            'data' => $turma
+        ], 200);
+        // return new TurmaResource($turma);
     }
 
     /**

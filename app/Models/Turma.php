@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusTurma;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,10 @@ class Turma extends Model
         'status',
         'professor_id',
         'curso_id',
+    ];
+
+    protected $casts = [
+        'status' => StatusTurma::class,
     ];
 
     public function professor()

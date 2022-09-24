@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('horario_entrada', 10); 
             $table->string('horario_saida', 10 );
             $table->string('modalidade', 20);
-            $table->string('status', 30);
+            $table->string('status', 13)->default('Em aberto'); 
 
             $table->unsignedBigInteger('professor_id');
             $table->unsignedBigInteger('curso_id');
