@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusPagamento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,11 @@ class Pagamento extends Model
         'valor_parcela',
         'data_vencimento',
         'status',
+        'aluno_id',
+    ];
+
+    protected $casts = [
+        'status' => StatusPagamento::class
     ];
 
     public function aluno()

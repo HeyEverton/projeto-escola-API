@@ -13,6 +13,7 @@ use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
+
 class AuthController extends Controller
 {
     public function __construct(private AuthService $authService)
@@ -23,7 +24,7 @@ class AuthController extends Controller
     {
         $input = $request->validated();
         $token = $this->authService
-            ->login($input['email'], $input['senha']);
+            ->login($input['email'], $input['password']);
 
         return (new UserResource(auth()->user()))->additional($token);
     }
@@ -34,13 +35,13 @@ class AuthController extends Controller
         $input = $request->validated();
         $user = $this->authService
             ->register(
-                $input['nome'],
+                $input['name'],
                 $input['email'],
-                $input['cargo'],
-                $input['senha']
+                $input['role'],
+                $input['password']
             );
 
-        return new UserResource($user);
+       return response()->json($user, 200);
     }
 
     // public function verifyEmail(AuthVerifyEmailRequest $request)

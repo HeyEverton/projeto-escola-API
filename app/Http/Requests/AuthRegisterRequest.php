@@ -24,10 +24,10 @@ class AuthRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required|string',
+            'name' => 'required|string',
             'email' => 'required|email',
-            'cargo' => 'required|string',
-            'senha' => 'required|min:8|max:30|regex:(^[a-zA-Z0-9 _-]+[a-zA-Z0-9-14\-[a-zA-Z0-9-.]+$)',
+            'role' => 'required|string',
+            'password' => 'required|min:8|max:30|regex:(^[a-zA-Z0-9 _-]+[a-zA-Z0-9-14\-[a-zA-Z0-9-.]+$)',
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\RoleUsers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +15,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'tb_usuarios';
+   
 
     /**
      * The attributes that are mass assignable.
@@ -21,10 +23,10 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'nome',
+        'name',
         'email',
-        'cargo',
-        'senha',
+        'role',
+        'password',
         'confirmation_token',
     ];
 
@@ -34,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'senha',
+        'password',
     ];
 
     /**
@@ -44,6 +46,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => RoleUsers::class,
     ];
 
     public function getJWTIdentifier()

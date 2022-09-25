@@ -5,17 +5,19 @@ namespace App\Services;
 use App\Exceptions\{EmailHasBeenTaken, LoginInvalidException, VerifyEmailTokenInvalidException};
 use App\Models\PasswordReset;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AuthService
 {
-    public function login(string $email, string $senha)
+    public function login(string $email, string $password)
     {
 
         $login = [
             'email' => $email,
-            'senha' => $senha
+            'password' => $password
         ];
+        
         if (!$token = auth()->attempt($login)) {
             throw new LoginInvalidException();
         }
@@ -26,19 +28,19 @@ class AuthService
         ];
     }
 
-    public function register(string $nome, string $email, string $cargo, string $senha)
+    public function register(string $name, string $email, string $role, string $password)
     {
         $user = User::where('email', $email)->exists();
         $token = Str::random(60);
         if (!empty($user)) {
             throw new EmailHasBeenTaken();
         }
-        $usuarioSenha = bcrypt($senha ?? Str::random(10));
+        $usuarioSenha = bcrypt($password ?? Str::random(10));
         $user = User::create([
-            'nome' => $nome,
+            'name' => $name,
             'email' => $email,
-            'senha' => $usuarioSenha,
-            'cargo' => $cargo,
+            'password' => $usuarioSenha,
+            'role' => $role,
             'confirmation_token' => $token
         ]);
 

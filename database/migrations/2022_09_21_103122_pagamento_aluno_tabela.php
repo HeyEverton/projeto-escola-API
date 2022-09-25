@@ -19,10 +19,10 @@ return new class extends Migration
             $table->unsignedBigInteger('aluno_id');
             $table->string('data_pagamento');
             $table->double('valor_pago');
-            $table->string('status', 30);
+            $table->string('status', 30)->default('Em aberto');
             $table->text('observacao');
 
-            $table->foreign('recebeu_id')->references('id')->on('tb_usuarios');
+            $table->foreign('recebeu_id')->references('id')->on('users');
             $table->foreign('aluno_id')->references('id')->on('tb_alunos');
             $table->timestamps();
         });

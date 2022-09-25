@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use ValueError;
 
 class Handler extends ExceptionHandler
 {
@@ -53,11 +54,18 @@ class Handler extends ExceptionHandler
     {
         if($exception instanceof ModelNotFoundException) {
             $modelName = class_basename($exception->getModel());
-
             $apiErrorCode = $modelName . 'NotFoundException';
+            $message = $modelName . 'nao encontrado.';            
+            return response()->json([
+                'error' => $apiErrorCode,
+                'message' => $message,
+            ], 404);
+        }
 
-            $message = $modelName . 'nao encontrado.';
-            
+        if($exception instanceof ValueError) {
+            $exceptionName = class_basename($exception);
+            $apiErrorCode = 'ValueErrorException';
+            $message = 'Este valor não pode ser inserido.';
             return response()->json([
                 'error' => $apiErrorCode,
                 'message' => $message,

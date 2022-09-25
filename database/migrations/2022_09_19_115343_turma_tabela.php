@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('qt_atual_alunos');
             $table->time('horario_entrada'); 
             $table->time('horario_saida');
-            $table->string('modalidade', 20);
+            $table->string('modalidade', 20)->default('Online');
             $table->string('status', 13)->default('Em aberto'); 
 
             $table->unsignedBigInteger('professor_id');
