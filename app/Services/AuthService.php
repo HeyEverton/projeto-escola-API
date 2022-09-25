@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\ForgotPassword;
 use App\Events\UserRegistered;
 use App\Exceptions\{EmailHasBeenTaken, LoginInvalidException, ResetPasswordTokenInvalidException, VerifyEmailTokenInvalidException};
 use App\Models\PasswordReset;
@@ -74,7 +75,7 @@ class AuthService
             'token' => $token,
         ]);
 
-        // event(new ForgotPassword($user, $token));
+        event(new ForgotPassword($user, $token));
 
         return '';
     }

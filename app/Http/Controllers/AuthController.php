@@ -44,25 +44,25 @@ class AuthController extends Controller
        return response()->json($user, 200);
     }
 
-    // public function verifyEmail(AuthVerifyEmailRequest $request)
-    // {
-    //     $input = $request->validated();
-    //     $user =  $this->authService->verifyEmail($input['token']);
+    public function verifyEmail(AuthVerifyEmailRequest $request)
+    {
+        $input = $request->validated();
+        $user =  $this->authService->verifyEmail($input['token']);
 
-    //     return new UserResource($user);
-    // }
+        return response()->json($user, 200);
+    }
 
 
-    // public function forgotPassword(AuthForgotPasswordRequest $request)
-    // {
-    //     $input = $request->validated();
-    //     return $this->authService->forgotPassword($input['email']);
-    // }
+    public function forgotPassword(AuthForgotPasswordRequest $request)
+    {
+        $input = $request->validated();
+        return $this->authService->forgotPassword($input['email']);
+    }
 
-    // public function resetPassword(AuthResetPasswordRequest $request)
-    // {
-    //     $input = $request->validated();
-    //     return $this->authService->resetPassword($input['email'], $input['password'], $input['token']);
-    // }
+    public function resetPassword(AuthResetPasswordRequest $request)
+    {
+        $input = $request->validated();
+        return $this->authService->resetPassword($input['email'], $input['password'], $input['token']);
+    }
 
 }

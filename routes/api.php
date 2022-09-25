@@ -29,6 +29,8 @@ Route::prefix('v1/')->group(function() {
     //AUTENTICACAO INCOMPLETA
     Route::post('login', [AuthController::class, 'login']);
     Route::post('cadastro', [AuthController::class, 'register']);
+    Route::post('verificar-email', [AuthController::class, 'verifyEmail']);
+    Route::post('esqueceu-a-senha', [AuthController::class, 'forgotPassword']);
 
     //MATRICULAS
     Route::resource('matriculas', MatriculaController::class);
