@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('nome', 50);
             $table->string('email')->unique();
             $table->string('senha');
+            $table->string('cargo', 30);
             $table->string('confirmation_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('cargo', 30);
             $table->timestamps();
         });
     }
