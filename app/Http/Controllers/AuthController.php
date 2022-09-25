@@ -41,15 +41,14 @@ class AuthController extends Controller
                 $input['password']
             );
 
-       return response()->json($user, 200);
+        return new UserResource($user);
     }
 
     public function verifyEmail(AuthVerifyEmailRequest $request)
     {
         $input = $request->validated();
         $user =  $this->authService->verifyEmail($input['token']);
-
-        return response()->json($user, 200);
+        return new UserResource($user);
     }
 
 

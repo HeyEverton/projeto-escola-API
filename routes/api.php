@@ -31,6 +31,7 @@ Route::prefix('v1/')->group(function() {
     Route::post('cadastro', [AuthController::class, 'register']);
     Route::post('verificar-email', [AuthController::class, 'verifyEmail']);
     Route::post('esqueceu-a-senha', [AuthController::class, 'forgotPassword']);
+    Route::post('recuperar-senha', [AuthController::class, 'resetPassword']);
 
     //MATRICULAS
     Route::resource('matriculas', MatriculaController::class);
