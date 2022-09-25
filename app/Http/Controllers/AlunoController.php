@@ -94,4 +94,24 @@ class AlunoController extends Controller
             'message'  => 'deletado com sucesso'
         ]);
     }
+
+    public function pesquisarNome($nome)
+    {
+        $alunos = $this->aluno->select()->where('nome', 'like', '%' . $nome . '%')->paginate();
+        return response()->json($alunos, 200);
+    }
+    
+    public function pesquisarCpf($cpf)
+    {
+        $alunos = $this->aluno->select()->where('cpf_aluno', 'like', '%' . $cpf . '%')->paginate();
+        
+        return response()->json($alunos, 200);
+    }
+    
+    public function pesquisarEmail($email)
+    {
+        $alunos = $this->aluno->select()->where('email', 'like', '%' . $email . '%')->paginate();
+        
+        return response()->json($alunos, 200);
+    }
 }
