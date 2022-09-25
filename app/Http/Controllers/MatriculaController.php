@@ -51,7 +51,7 @@ class MatriculaController extends Controller
         return response()->json($matricula, 200);
     }
 
-    public function showRelations($id)
+    public function showRelation($id)
     {
         $matricula = $this->matricula->with('aluno')->with('parcelas')->find($id);
 

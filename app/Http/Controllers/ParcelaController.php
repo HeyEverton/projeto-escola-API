@@ -20,8 +20,8 @@ class ParcelaController extends Controller
      */
     public function index()
     {
-       $parcelas = $this->parcela->select()->paginate();
-       return response()->json($parcelas, 200);
+        $parcelas = $this->parcela->select()->paginate();
+        return response()->json($parcelas, 200);
     }
 
     /**
@@ -34,7 +34,7 @@ class ParcelaController extends Controller
     {
         $input = $request->validated();
         $parcela = $this->parcela->create($input);
-       return response()->json($parcela, 200);
+        return response()->json($parcela, 200);
     }
 
     /**
@@ -46,15 +46,19 @@ class ParcelaController extends Controller
     public function show($id)
     {
         $parcela = $this->parcela->find($id);
+        if (empty($parcela)) {
+            throw new ModelNotFoundException();
+        }
         return response()->json($parcela, 200);
-
     }
 
     public function showRelation($id)
     {
         $parcela = $this->parcela->with('aluno')->with('matricula')->find($id);
+        if (empty($parcela)) {
+            throw new ModelNotFoundException();
+        }
         return response()->json($parcela, 200);
-
     }
 
     /**

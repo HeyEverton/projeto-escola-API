@@ -52,7 +52,7 @@ class ProfessorController extends Controller
     public function show($id)
     {
         $professor = $this->professor->find($id);
-        if (empty($professor)) {
+        if (empty($pagamento)) {
             throw new ModelNotFoundException();
         }
         return new ProfessorResource($professor);
