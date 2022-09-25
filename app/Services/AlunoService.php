@@ -27,7 +27,6 @@ class AlunoService
 
         $alunoEmail = Aluno::where('email', $input['email'])->exists();
         $alunoCpf = Aluno::where('cpf_aluno', $input['cpf_aluno'])->exists();
-        
         if (!empty($alunoEmail)) { throw new EmailHasBeenTaken(); }
         if (!empty($alunoCpf)) { throw new InvalidCpf(); }
 
@@ -56,9 +55,7 @@ class AlunoService
 
         if (!empty($alunoEmail)) { throw new EmailHasBeenTaken(); }
         if (!empty($alunoCpf)) { throw new InvalidCpf(); }
-
         $aluno->fill($request->except('aluno_foto'));
-
         if ($foto = $request->hasFile('aluno_foto')) {
 
             $foto = $request->file('aluno_foto');
