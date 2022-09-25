@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\{EmailHasBeenTaken, LoginInvalidException, VerifyEmailTokenInvalidException};
+use App\Exceptions\{EmailHasBeenTaken, LoginInvalidException, ResetPasswordTokenInvalidException, VerifyEmailTokenInvalidException};
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -47,48 +47,48 @@ class AuthService
         return $user;
     }
 
-    // public function verifyEmail(string $token)
-    // {
-    //     $user = User::where('confirmation_token', $token)->first();
-    //     if (empty($user)) {
-    //         throw new VerifyEmailTokenInvalidException();
-    //     }
-    //     $user->confirmation_token = null;
-    //     $user->email_verified_at = now();
-    //     $user->save();
+    public function verifyEmail(string $token)
+    {
+        $user = User::where('confirmation_token', $token)->first();
+        if (empty($user)) {
+            throw new VerifyEmailTokenInvalidException();
+        }
+        $user->confirmation_token = null;
+        $user->email_verified_at = now();
+        $user->save();
 
-    //     return $user;
-    // }
+        return $user;
+    }
 
-    // public function forgotPassword(string $email)
-    // {
-    //     $user = User::where('email', $email)->firstOrFail();
+    public function forgotPassword(string $email)
+    {
+        $user = User::where('email', $email)->firstOrFail();
 
-    //     $token = Str::random(60);
+        $token = Str::random(60);
 
-    //     PasswordReset::create([
-    //         'email' => $user->email,
-    //         'token' => $token,
-    //     ]);
+        PasswordReset::create([
+            'email' => $user->email,
+            'token' => $token,
+        ]);
 
-    //     // event(new ForgotPassword($user, $token));
+        // event(new ForgotPassword($user, $token));
 
-    //     return '';
-    // }
+        return '';
+    }
 
-    // public function resetPassword(string $email, string $password, string $token)
-    // {
-    //     $passReset = PasswordReset::where('email', $email)->where('token', $token)->first();
-    //     if (empty($passReset)) {
-    //         throw new ResetPasswordTokenInvalidException();
-    //     }
+    public function resetPassword(string $email, string $password, string $token)
+    {
+        $passReset = PasswordReset::where('email', $email)->where('token', $token)->first();
+        if (empty($passReset)) {
+            throw new ResetPasswordTokenInvalidException();
+        }
 
-    //     $user = User::where('email', $email)->firstOrFail();
-    //     $user->password = bcrypt($password);
-    //     $user->save();
+        $user = User::where('email', $email)->firstOrFail();
+        $user->password = bcrypt($password);
+        $user->save();
 
-    //     PasswordReset::where('email', $email)->delete();
+        PasswordReset::where('email', $email)->delete();
 
-    //     return '';
-    // }
+        return '';
+    }
 }
