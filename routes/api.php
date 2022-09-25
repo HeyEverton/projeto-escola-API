@@ -40,9 +40,20 @@ Route::prefix('v1/')->group(function() {
 
     //ALUNO
     Route::resource('alunos', AlunoController::class);
-
+    Route::get('alunos/pesquisar/nome/{nome}', [AlunoController::class, 'pesquisarNome']); 
+    Route::get('alunos/pesquisar/cpf/{cpf}', [AlunoController::class, 'pesquisarCpf']); 
+    Route::get('alunos/pesquisar/email/{email}', [AlunoController::class, 'pesquisarEmail']); 
+    Route::get('alunos/pesquisar/telefone/{telContato}', [AlunoController::class, 'pesquisarTelefone']); 
+    Route::get('alunos/pesquisar/data-nascimento/{dataNasc}', [AlunoController::class, 'pesquisarDataNasc']); 
+    
     //PROFESSOR    
     Route::resource('professores', ProfessorController::class);
+    Route::get('professores/pesquisar/nome/{nome}', [ProfessorController::class, 'pesquisarNome']); 
+    Route::get('professores/pesquisar/cpf/{cpf}', [ProfessorController::class, 'pesquisarCpf']); 
+    Route::get('professores/pesquisar/rg/{rg}', [ProfessorController::class, 'pesquisarRg']); 
+    Route::get('professores/pesquisar/telefone/{telContato}', [ProfessorController::class, 'pesquisarTelefone']); 
+    Route::get('professores/pesquisar/email/{email}', [ProfessorController::class, 'pesquisarEmail']); 
+    Route::get('professores/pesquisar/numero-conta/{numConta}', [ProfessorController::class, 'pesquisarConta']); 
     
     //CURSO
     Route::resource('cursos', CursoController::class);

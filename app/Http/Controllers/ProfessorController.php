@@ -89,4 +89,41 @@ class ProfessorController extends Controller
             'message' => 'Excluido com sucesso.',
         ]);
     }
+
+
+    public function pesquisarNome($nome)
+    {
+        $professores = $this->professor->select()->where('nome', 'like', '%' . $nome . '%')->paginate();
+        return response()->json($professores, 200);
+    }
+
+    public function pesquisarCpf($cpf)
+    {
+        $professores = $this->professor->select()->where('professor_cpf', 'like', '%' . $cpf . '%')->paginate();
+        return response()->json($professores, 200);
+    }
+
+    public function pesquisarRg($rg)
+    {
+        $professores = $this->professor->select()->where('professor_rg', 'like', '%' . $rg . '%')->paginate();
+        return response()->json($professores, 200);
+    }
+
+    public function pesquisarTelefone($telContato)
+    {
+        $professores = $this->professor->select()->where('tel_contato', 'like', '%' . $telContato . '%')->paginate();
+        return response()->json($professores, 200);
+    }
+
+    public function pesquisarEmail($email)
+    {
+        $professores = $this->professor->select()->where('email', 'like', '%' . $email . '%')->paginate();
+        return response()->json($professores, 200);
+    }
+
+    public function pesquisarConta($numConta)
+    {
+        $professores = $this->professor->select()->where('numero_conta', 'like', '%' . $numConta . '%')->paginate();
+        return response()->json($professores, 200);
+    }
 }

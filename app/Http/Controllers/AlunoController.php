@@ -114,4 +114,18 @@ class AlunoController extends Controller
         
         return response()->json($alunos, 200);
     }
+    
+    public function pesquisarTelefone($telContato)
+    {
+        $alunos = $this->aluno->select()->where('tel_contato', 'like', '%' . $telContato . '%')->paginate();
+        
+        return response()->json($alunos, 200);
+    }
+    
+    public function pesquisarDataNasc($dataNasc)
+    {
+        $alunos = $this->aluno->select()->where('data_nasc', 'like', '%' . $dataNasc . '%')->paginate();
+        
+        return response()->json($alunos, 200);
+    }
 }
