@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\UserRegistered;
 use App\Exceptions\{EmailHasBeenTaken, LoginInvalidException, ResetPasswordTokenInvalidException, VerifyEmailTokenInvalidException};
 use App\Models\PasswordReset;
 use App\Models\User;
@@ -17,7 +18,7 @@ class AuthService
             'email' => $email,
             'password' => $password
         ];
-        
+
         if (!$token = auth()->attempt($login)) {
             throw new LoginInvalidException();
         }
@@ -43,6 +44,8 @@ class AuthService
             'role' => $role,
             'confirmation_token' => $token
         ]);
+        
+        event(new UserRegistered($user));
 
         return $user;
     }
