@@ -32,7 +32,7 @@ class Aluno extends Model
 
     public function pagamentos()
     {
-        return $this->hasMany(Pagamento::class);
+        return $this->hasMany(Pagamento::class, 'aluno_id');
     }
 
     public function matriculas()

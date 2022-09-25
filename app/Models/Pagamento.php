@@ -12,10 +12,10 @@ class Pagamento extends Model
     protected $table = 'tb_pagamentos';
     
     protected $fillable = [
-        'num_parcelas',
-        'valor_parcela',
-        'data_vencimento',
+        'data_pagamento',
+        'valor_pago',
         'status',
+        'observacao',
         'aluno_id',
     ];
 
@@ -30,6 +30,6 @@ class Pagamento extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
