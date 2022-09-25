@@ -24,8 +24,11 @@ class PagamentoRequest extends FormRequest
     public function rules()
     {
         return [
-            'data_pagamento' => 'required|string',
-            'valor_pago' => 'required|integer',
+            'data_pagamento' => 'required|date',
+            'valor_pago' => 'required',
+            'status' => 'sometimes',
+            'observacao' => 'sometimes',
+            'aluno_id' => 'required',
         ];
     }
 }

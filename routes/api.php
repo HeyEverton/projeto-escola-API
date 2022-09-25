@@ -4,6 +4,7 @@ use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\ParcelaController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TurmaController;
@@ -35,7 +36,7 @@ Route::prefix('v1/')->group(function() {
 
     //MATRICULAS
     Route::resource('matriculas', MatriculaController::class);
-    Route::get('matriculas/aluno/{id}', [MatriculaController::class, 'showRelations']);
+    Route::get('matriculas/aluno/{id}', [MatriculaController::class, 'showRelation']);
 
     //ALUNO
     Route::resource('alunos', AlunoController::class);
@@ -53,5 +54,9 @@ Route::prefix('v1/')->group(function() {
     //PARCELAS
     Route::resource('parcelas', ParcelaController::class);
     Route::get('parcelas/aluno/matricula/{id}', [ParcelaController::class, 'showRelation']);;
+
+    //pagamentos
+    Route::resource('pagamentos', PagamentoController::class);
+    Route::get('pagamentos/alunos/{id}', [PagamentoController::class, 'showRelation']);
    
 });
