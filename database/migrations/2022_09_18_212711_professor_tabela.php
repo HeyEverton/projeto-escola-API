@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('professor_foto');
             $table->string('estado_civil', 10); 
             $table->string('sexo', 10); 
-            $table->string('formacao', 45); 
+            $table->string('formacao', 30);
+            $table->string('nacionalidade', 2);
             $table->string('tel_contato', 15);
             $table->string('nome_rua', 45);
             $table->integer('numero_residencia');

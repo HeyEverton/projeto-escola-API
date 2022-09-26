@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum StatusPagamento: string
+enum StatusPagamento: int
 {
-    case EM_ABERTO = 'Em aberto';
-    case PAGO_COM_ATRASO = 'Pago com atraso';
-    case PAGO = 'Pago';
-    case ATRASADO = 'Atrasado';
+    case EM_ABERTO = 1;
+    case PAGO_COM_ATRASO = 2;
+    case PAGO = 3;
+    case ATRASADO = 4;
 }

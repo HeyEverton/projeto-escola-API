@@ -25,7 +25,7 @@ class CreateAlunoRequest extends FormRequest
     {
         return [
             'nome' => 'required|string',
-            'cpf_aluno' => 'required|string',
+            'cpf_aluno' => 'required|string|max:14|min:14',
             'aluno_foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'email' => 'required|email',
             'sexo' => 'required|max:10',

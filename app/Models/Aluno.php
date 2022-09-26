@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\{Nacionalidade, Sexo};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ class Aluno extends Model
     use HasFactory;
 
     protected $table = 'tb_alunos';
-    
+
     protected $fillable = [
         'nome',
         'cpf_aluno',
@@ -28,6 +29,10 @@ class Aluno extends Model
         'cidade',
         'bairro',
         'estado',
+    ];
+    protected $casts = [
+        'sexo' => Sexo::class,
+        'nacionalidade' => Nacionalidade::class
     ];
 
     public function pagamentos()

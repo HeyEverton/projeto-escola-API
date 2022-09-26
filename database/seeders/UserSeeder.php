@@ -19,8 +19,8 @@ class UserSeeder extends Seeder
             'name' => 'Everton Henrique',
             'email' => 'everton@everton.com',
             'password' => bcrypt('123456789'),
-            'role' => 'Administrador',
+            'role' => 'Admin',
         ]);
-        User::factory(5)->create();
+        User::factory(3)->create();
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
-enum ModalidadeTurma: string
+enum ModalidadeTurma: int
 {
-    case ONLINE = 'Online';
-    case PRESENCIAL = 'Presencial';
+    case ONLINE = 1;
+    case PRESENCIAL = 2;
 }

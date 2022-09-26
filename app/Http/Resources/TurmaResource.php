@@ -23,7 +23,7 @@ class TurmaResource extends JsonResource
             'qt_atual_alunos' => (string)$this->qt_atual_alunos,
             'horario_entrada' => (string)$this->horario_entrada,
             'horario_saida' => (string)$this->horario_saida,
-            'modalidade' => (string)$this->modalidade,
+            'modalidade' => $this->modalidade,
             'status' => (string)$this->status,
             'created_at' => (string)$this->created_at,
         ];

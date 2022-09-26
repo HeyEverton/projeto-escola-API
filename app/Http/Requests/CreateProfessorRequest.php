@@ -26,7 +26,7 @@ class CreateProfessorRequest extends FormRequest
         return [
             'nome' => 'required|string',
             'email' => 'required|email',
-            'professor_cpf' => 'required|string',
+            'professor_cpf' => 'required|string|max:14|min:14',
             'professor_foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'professor_rg' => 'required|string',
             'estado_civil' => 'required|string',

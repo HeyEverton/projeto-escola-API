@@ -20,7 +20,7 @@ class AlunoResource extends JsonResource
             'cpf_aluno' => (string)$this->cpf_aluno,
             'aluno_foto' => (string)$this->aluno_foto,
             'email' => (string)$this->email,
-            'sexo' => (string)$this->sexo,
+            'sexo' => $this->sexo,
             'nacionalidade' => (string)$this->nacionalidade,
             'escolaridade' => (string)$this->escolaridade,
             'data_nasc' => (string)$this->data_nasc,

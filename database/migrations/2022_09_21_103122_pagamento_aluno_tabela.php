@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('aluno_id');
             $table->string('data_pagamento');
             $table->double('valor_pago');
-            $table->string('status', 30)->default('Em aberto')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->text('observacao')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -45,6 +45,7 @@ Route::prefix('v1/')->group(function() {
     Route::get('alunos/pesquisar/email/{email}', [AlunoController::class, 'pesquisarEmail']); 
     Route::get('alunos/pesquisar/telefone/{telContato}', [AlunoController::class, 'pesquisarTelefone']); 
     Route::get('alunos/pesquisar/data-nascimento/{dataNasc}', [AlunoController::class, 'pesquisarDataNasc']); 
+    Route::get('alunos/pesquisar/sexo/{sexo}', [AlunoController::class, 'pesquisarTodosSexo']); 
     
     //PROFESSOR    
     Route::resource('professores', ProfessorController::class);
@@ -54,6 +55,7 @@ Route::prefix('v1/')->group(function() {
     Route::get('professores/pesquisar/telefone/{telContato}', [ProfessorController::class, 'pesquisarTelefone']); 
     Route::get('professores/pesquisar/email/{email}', [ProfessorController::class, 'pesquisarEmail']); 
     Route::get('professores/pesquisar/numero-conta/{numConta}', [ProfessorController::class, 'pesquisarConta']); 
+    Route::get('professores/pesquisar/sexo/{sexo}', [ProfessorController::class, 'pesquisarTodosSexo']); 
     
     //CURSO
     Route::resource('cursos', CursoController::class);

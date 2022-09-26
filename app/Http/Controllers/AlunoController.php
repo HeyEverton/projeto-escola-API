@@ -110,22 +110,25 @@ class AlunoController extends Controller
     
     public function pesquisarEmail($email)
     {
-        $alunos = $this->aluno->select()->where('email', 'like', '%' . $email . '%')->paginate();
-        
+        $alunos = $this->aluno->select()->where('email', 'like', '%' . $email . '%')->paginate();        
         return response()->json($alunos, 200);
     }
     
     public function pesquisarTelefone($telContato)
     {
-        $alunos = $this->aluno->select()->where('tel_contato', 'like', '%' . $telContato . '%')->paginate();
-        
+        $alunos = $this->aluno->select()->where('tel_contato', 'like', '%' . $telContato . '%')->paginate();        
         return response()->json($alunos, 200);
     }
     
     public function pesquisarDataNasc($dataNasc)
     {
-        $alunos = $this->aluno->select()->where('data_nasc', 'like', '%' . $dataNasc . '%')->paginate();
-        
+        $alunos = $this->aluno->select()->where('data_nasc', 'like', '%' . $dataNasc . '%')->paginate();        
+        return response()->json($alunos, 200);
+    }
+    
+    public function pesquisarTodosSexo($sexo)
+    {
+        $alunos = $this->aluno->select()->where('sexo', 'like', '%' . $sexo . '%')->paginate();        
         return response()->json($alunos, 200);
     }
 }

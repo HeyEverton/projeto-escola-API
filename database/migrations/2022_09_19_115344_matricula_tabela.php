@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('valor_curso');
             $table->string('desconto_curso', 10)->nullable();
             $table->date('data_vencimento');
-            $table->string('forma_pagamento', 20);
+            $table->char('forma_pagamento', 1);
             $table->tinyInteger('qtd_parcelas');
 
             $table->timestamps();

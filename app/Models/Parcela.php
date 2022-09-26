@@ -13,7 +13,6 @@ class Parcela extends Model
         'num_parcela',
         'valor_parcela',
         'data_vencimento',
-        'status',
         'aluno_id',
         'matricula_id',
     ];

@@ -126,4 +126,11 @@ class ProfessorController extends Controller
         $professores = $this->professor->select()->where('numero_conta', 'like', '%' . $numConta . '%')->paginate();
         return response()->json($professores, 200);
     }
+
+
+    public function pesquisarTodosSexo($sexo)
+    {
+        $professores = $this->professor->select()->where('sexo', 'like', '%' . $sexo . '%')->paginate();
+        return response()->json($professores, 200);
+    }
 }

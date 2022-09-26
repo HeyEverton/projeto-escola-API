@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\{EstadoCivil, Sexo};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,6 +31,11 @@ class Professor extends Model
         'banco',
         'numero_conta',
         'agencia',
+    ];
+
+    protected $casts = [
+        'sexo' => Sexo::class,
+        'estado_civil' => EstadoCivil::class
     ];
 
     public function turmas()

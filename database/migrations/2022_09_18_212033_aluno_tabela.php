@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('cpf_aluno', 15)->unique();
             $table->string('aluno_foto');
             $table->string('email')->unique();
-            $table->string('sexo', 10);
-            $table->string('nacionalidade', 40);
+            $table->string('sexo', 1);
+            $table->string('nacionalidade', 2);
             $table->string('escolaridade', 35);
             $table->date('data_nasc');
             $table->string('whatsapp', 15)->nullable();
