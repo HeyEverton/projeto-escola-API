@@ -25,8 +25,8 @@ class ProfessorController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Professor::class); 
         $professores = $this->professor->select()->paginate();
-
         return response()->json($professores, 200);
     }
 
@@ -38,6 +38,7 @@ class ProfessorController extends Controller
      */
     public function store(CreateProfessorRequest $request, CreateProfessorFotoRequest $professorFotoRequest)
     {
+        $this->authorize('create', Professor::class); 
         $input = $request->validated();
         $professor = $this->professorService->store($input, $request, $professorFotoRequest);
         return new ProfessorResource($professor);
@@ -51,8 +52,9 @@ class ProfessorController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', Professor::class); 
         $professor = $this->professor->find($id);
-        if (empty($pagamento)) {
+        if (empty($professor)) {
             throw new ModelNotFoundException();
         }
         return new ProfessorResource($professor);
@@ -67,6 +69,7 @@ class ProfessorController extends Controller
      */
     public function update(CreateProfessorRequest $request, $id)
     {
+        $this->authorize('update', Professor::class); 
         $input = $request->validated();
         $professor = $this->professorService->edit($input, $request, $id);
         return new ProfessorResource($professor);
@@ -80,6 +83,7 @@ class ProfessorController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Professor::class); 
         $professor = $this->professor->find($id);
         if (empty($professor)) {
             throw new ModelNotFoundException();
