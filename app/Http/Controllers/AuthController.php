@@ -64,4 +64,9 @@ class AuthController extends Controller
         return $this->authService->resetPassword($input['email'], $input['password'], $input['token']);
     }
 
+    public function me()
+    {
+        return new UserResource(auth()->user());
+    }
+
 }

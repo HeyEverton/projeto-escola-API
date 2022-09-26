@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 use ValueError;
 
@@ -66,6 +67,16 @@ class Handler extends ExceptionHandler
             $exceptionName = class_basename($exception);
             $apiErrorCode = 'ValueErrorException';
             $message = 'Este valor não pode ser inserido.';
+            return response()->json([
+                'error' => $apiErrorCode,
+                'message' => $message,
+            ], 404);
+        }
+
+        if($exception instanceof AccessDeniedHttpException) {
+            $exceptionName = class_basename($exception);
+            $apiErrorCode = 'AccessDeniedHttpException';
+            $message = 'Acesso negado.';
             return response()->json([
                 'error' => $apiErrorCode,
                 'message' => $message,

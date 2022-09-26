@@ -6,6 +6,7 @@ use App\Exceptions\FileNotSend;
 use App\Http\Requests\{CreateAlunoFotoRequest, CreateAlunoRequest};
 use App\Http\Resources\AlunoResource;
 use App\Models\Aluno;
+use App\Models\User;
 use App\Services\AlunoService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ use Ramsey\Uuid\Uuid as Uuid;
 
 class AlunoController extends Controller
 {
-    public function __construct(private Aluno $aluno, private AlunoService $alunoService)
+    public function __construct(private Aluno $aluno, private AlunoService $alunoService, User $user )
     {
     }
 
@@ -25,6 +26,8 @@ class AlunoController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Aluno::class); 
+        
         $alunos = $this->aluno->select()->paginate();
 
         return response()->json($alunos, 200);
@@ -38,6 +41,7 @@ class AlunoController extends Controller
      */
     public function store(CreateAlunoRequest $request, CreateAlunoFotoRequest $alunoFotoRequest)
     {
+        $this->authorize('create', Aluno::class); 
         $input = $request->validated();
         $data = $request->all();
         $aluno = $this->alunoService->store($input, $alunoFotoRequest, $request);
@@ -53,6 +57,7 @@ class AlunoController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', Aluno::class); 
         $aluno = $this->aluno->find($id);
         if (empty($aluno)) {
             throw new ModelNotFoundException();
@@ -70,6 +75,7 @@ class AlunoController extends Controller
      */
     public function update(CreateAlunoRequest $request, $id)
     {
+        $this->authorize('update', Aluno::class); 
         $input = $request->validated();
         $aluno = $this->alunoService->edit($input, $request, $id);
         return new AlunoResource($aluno);
@@ -83,6 +89,7 @@ class AlunoController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Aluno::class); 
         $aluno = $this->aluno->find($id);
 
         if (empty($aluno)) {
