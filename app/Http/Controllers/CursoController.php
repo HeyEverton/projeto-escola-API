@@ -23,10 +23,11 @@ class CursoController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-any', Curso::class);
         $curso = $this->curso->select()->paginate();
         return response()->json($curso, 200);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -35,6 +36,7 @@ class CursoController extends Controller
      */
     public function store(CursoRequest $request)
     {
+        $this->authorize('create', Curso::class);
         $input = $request->validated();
         $curso = $this->curso->create($input);
         return new CursoResource($curso);
@@ -48,13 +50,15 @@ class CursoController extends Controller
      */
     public function show($id)
     {
-        $curso = $this->curso->find($id);
-        if (empty($curso)) {
-            throw new ModelNotFoundException();
+     $this->authorize('view', Curso::class);
+     $this->authorize('view', Curso::class);
+     $curso = $this->curso->find($id);
+     if (empty($curso)) {
+         throw new ModelNotFoundException();
         }
         return new CursoResource($curso);
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -64,6 +68,7 @@ class CursoController extends Controller
      */
     public function update(CursoUpdateRequest $request, $id)
     {
+        $this->authorize('update', Curso::class);
         $input = $request->validated();
         $curso = $this->curso->find($id);
         if(empty($curso)) {
@@ -72,7 +77,7 @@ class CursoController extends Controller
         $curso->update($input);
         return new CursoResource($curso);
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -81,6 +86,7 @@ class CursoController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Curso::class);
         $curso = $this->curso->find($id);
         if (empty($curso)) {
             throw new ModelNotFoundException();
