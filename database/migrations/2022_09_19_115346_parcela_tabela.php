@@ -15,15 +15,22 @@ return new class extends Migration
     {
         Schema::create('tb_parcelas', function (Blueprint $table) {
             $table->id();
-            $table->integer('num_parcela');
-            $table->double('valor_parcela');
-            $table->date('data_vencimento');
-            
-            $table->unsignedBigInteger('aluno_id');
-            $table->unsignedBigInteger('matricula_id');
+            $table->integer('num_parcela')->nullable();
+            $table->double('valor_parcela')->nullable();
+            $table->date('data_vencimento')->nullable();
 
-            $table->foreign('aluno_id')->references('id')->on('tb_alunos');
-            $table->foreign('matricula_id')->references('id')->on('tb_matriculas');
+            $table->double('valor_pago')->nullable();
+            $table->tinyInteger('status')->default(1)->nullable();
+            $table->text('observacao')->nullable();
+            $table->date('data_pagamento')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            
+            $table->unsignedBigInteger('aluno_id')->nullable();
+            $table->unsignedBigInteger('matricula_id')->nullable();
+            
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('aluno_id')->references('id')->on('tb_alunos')->cascadeOnDelete();
+            $table->foreign('matricula_id')->references('id')->on('tb_matriculas')->cascadeOnDelete();
 
             $table->timestamps();
         });

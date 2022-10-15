@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('aluno_id');
             $table->unsignedBigInteger('turma_id');
-            $table->foreign('aluno_id')->references('id')->on('tb_alunos');
-            $table->foreign('turma_id')->references('id')->on('tb_turmas');
+            $table->foreign('aluno_id')->references('id')->on('tb_alunos')->cascadeOnDelete();
+            $table->foreign('turma_id')->references('id')->on('tb_turmas')->cascadeOnDelete();
             
             $table->double('valor_curso');
             $table->string('desconto_curso', 10)->nullable();

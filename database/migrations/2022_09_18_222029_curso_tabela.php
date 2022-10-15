@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 50);
             $table->text('descricao');
-            $table->boolean('ativo')->default(true);
+            $table->boolean('ativo')->default(1);
             $table->double('preco');
+            $table->string('desconto', 10)->nullable();
             $table->integer('carga_horaria');
             $table->timestamps();
         });

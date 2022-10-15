@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->string('email')->unique();
+            $table->string('profile_photo', 200)->nullable();
             $table->string('password');
             $table->string('role', 30)->default('Aluno');
             $table->string('confirmation_token')->nullable();

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('professor_foto');
             $table->string('estado_civil', 10); 
             $table->string('sexo', 10); 
-            $table->string('formacao', 30);
+            $table->string('formacao', 100);
             $table->string('nacionalidade', 2);
             $table->string('tel_contato', 15);
             $table->string('nome_rua', 45);
@@ -33,9 +33,9 @@ return new class extends Migration
             $table->string('estado', 2);
 
             //DADOS BANCARIOS
-            $table->string('banco');
-            $table->string('numero_conta');
-            $table->string('agencia');
+            $table->string('banco', 4);
+            $table->string('numero_conta', 10);
+            $table->string('agencia', 5);
 
             $table->timestamps();
         });
