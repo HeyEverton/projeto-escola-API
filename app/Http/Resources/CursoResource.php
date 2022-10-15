@@ -20,6 +20,7 @@ class CursoResource extends JsonResource
             'descricao' => (string) $this->descricao,
             'ativo' => (string) $this->ativo,
             'preco' => (string) $this->preco,
+            'desconto' => $this->desconto,
             'carga_horaria' => (string) $this->carga_horaria,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,

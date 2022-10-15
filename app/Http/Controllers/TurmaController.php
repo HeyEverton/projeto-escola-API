@@ -60,18 +60,7 @@ class TurmaController extends Controller
         ], 200);
     }
 
-    public function showRelation($id)
-    {
-        $turma = $this->turma->with('professor')->with('curso')->find($id);
-
-        if (empty($turma)) {
-            throw new ModelNotFoundException();
-        }
-        return response()->json([
-            'data' => $turma
-        ]);
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -81,8 +70,7 @@ class TurmaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $input = $request->validated();
-
+        $input = $request->all();
         $turma = $this->turma->find($id);
         if (empty($turma)) {
             throw new ModelNotFoundException();
@@ -106,9 +94,56 @@ class TurmaController extends Controller
             throw new ModelNotFoundException();
         }
         $turma->delete();
-
+        
         return response()->json([
             'message' => 'Excluido com sucesso.',
         ]);
     }
+    
+    public function turmaCurso($id)
+    {
+        $turma = Turma::with('curso')->find($id);
+        return response()->json([
+            'data' => $turma
+        ]);
+        // $turma = Turma::with('curso')->find($id)
+    }
+
+    public function showRelation($id)
+    {
+        $turma = $this->turma->with('professor')->with('curso')->find($id);
+    
+        if (empty($turma)) {
+            throw new ModelNotFoundException();
+        }
+        return response()->json([
+            'data' => $turma
+        ]);
+    }
+    
+    public function turmaProfessorCurso()
+    {
+        $turma = $this->turma->with('professor')->with('curso')->get();
+    
+        if (empty($turma)) {
+            throw new ModelNotFoundException();
+        }
+        return response()->json([
+            'data' => $turma
+        ], 200);
+    }
+
+    public function pesquisaNome($nome)
+    {
+        $turmas = $this->turma->select()->where('nome', 'like', '%' . $nome . '%')->with('curso')->with('professor')->get();
+        return response()->json($turmas, 200);
+    }
+
+    public function pesquisaTurno($turno)
+    {
+        $turmas = $this->turma->select()->where('turno', 'like', '%' . $turno . '%')->with('curso')->with('professor')->get();
+        return response()->json($turmas, 200);
+    }
+
+
 }

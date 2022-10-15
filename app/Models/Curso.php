@@ -16,6 +16,7 @@ class Curso extends Model
         'ativo',
         'preco',
         'carga_horaria',
+        'desconto',
     ];
     
 

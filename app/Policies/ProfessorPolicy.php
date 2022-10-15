@@ -23,6 +23,7 @@ class ProfessorPolicy
     {
         return $user->role->name === 'ADMINISTRADOR' ||
         $user->role->name === 'PROFESSOR' ||
+        $user->role->name === 'ALUNO' ||
         $user->role->name === 'SECRETARIA';
     }
 

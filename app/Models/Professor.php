@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\{EstadoCivil, Sexo};
+use App\Enums\{Banco, EstadoCivil, Nacionalidade, Sexo};
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,11 +32,22 @@ class Professor extends Model
         'banco',
         'numero_conta',
         'agencia',
+        'nacionalidade',
     ];
+
+    protected function professorFoto(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => 'http://' . $_SERVER['HTTP_HOST'] . "/storage/professores_fotos/" . $value,
+        );
+    }
+
 
     protected $casts = [
         'sexo' => Sexo::class,
-        'estado_civil' => EstadoCivil::class
+        'estado_civil' => EstadoCivil::class,
+        'nacionalidade' => Nacionalidade::class,
+        'banco' => Banco::class,
     ];
 
     public function turmas()
