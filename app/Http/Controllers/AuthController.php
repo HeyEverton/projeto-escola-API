@@ -33,14 +33,7 @@ class AuthController extends Controller
     {
 
         $input = $request->validated();
-        $user = $this->authService
-            ->register(
-                $input['name'],
-                $input['email'],
-                $input['role'],
-                $input['password']
-            );
-
+        $user = $this->authService->register($input, $request);
         return new UserResource($user);
     }
 
@@ -64,9 +57,9 @@ class AuthController extends Controller
         return $this->authService->resetPassword($input['email'], $input['password'], $input['token']);
     }
 
-    public function me()
+    public function me(Request $request)
     {
-        return new UserResource(auth()->user());
+        return $request->user();
     }
 
 }
