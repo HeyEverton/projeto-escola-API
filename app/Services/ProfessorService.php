@@ -36,15 +36,14 @@ class ProfessorService
 
         if ($professorFotoRequest->hasFile('professor_foto')) {
             $arquivo = '';
-
             if ($professorFoto) {
                 if ($request->file('professor_foto')->isValid()) {
                     $extensaoArquivo = $professorFoto->getClientOriginalExtension();
-                    $nomeArquivo = Uuid::uuid6();
-                    $arquivo = $professorFoto->storeAs('professores-fotos', "{$nomeArquivo}" .  "." . "{$extensaoArquivo}");
+                    $nomeArquivo = Uuid::uuid6() . '.' . $extensaoArquivo;
+                    $arquivo = $professorFoto->storeAs('public/professores_fotos', $nomeArquivo);
                 }
             }
-            $data['professor_foto'] = $arquivo;
+            $data['professor_foto'] = $nomeArquivo;
             $professor =  $this->professor->create($data);
             return $professor;
         } else {
@@ -57,10 +56,7 @@ class ProfessorService
         $input = $request->validated();
 
         $professor = $this->professor->findOrFail($id);
-        $professorEmail = Professor::where('email', $input['email'])->exists();
-        $professorCpf = Professor::where('professor_cpf', $input['professor_cpf'])->exists();
-        if (!empty($professorEmail)) { throw new EmailHasBeenTaken(); }
-        if (!empty($professorCpf)) { throw new InvalidCpf(); }
+
 
         $professor->fill($request->except('professor_foto'));
 
@@ -72,9 +68,7 @@ class ProfessorService
             $caminhoArquivo = public_path() . '/storage/professores_fotos/';
             $foto->move($caminhoArquivo, $nomeArquivo);
             $professor->professor_foto = $nomeArquivo;
-        } else {
-            throw new FileNotSend();
-        }
+        } 
         $professor->save();
 
         return $professor;

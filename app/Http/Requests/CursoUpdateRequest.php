@@ -29,17 +29,7 @@ class CursoUpdateRequest extends FormRequest
             'ativo' => 'required|boolean',
             'preco' => 'required|integer',
             'carga_horaria' => 'required|string',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'nome.required' => 'este campo e obrigatorio.',
-            'descricao.required' => 'este campo e obrigatorio.',
-            'ativo.required' => 'este campo e obrigatorio.',
-            'preco.required' => 'este campo e obrigatorio.',
-            'carga_horaria.required' => 'este campo e obrigatorio.',
+            'desconto' => 'nullable',
         ];
     }
 }

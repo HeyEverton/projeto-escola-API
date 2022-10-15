@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -22,7 +23,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'role' => 'Aluno',
-            'email_verified_at' => now(),
+            'profile_photo' => Uuid::uuid6() . '.jpg',
+            'email_verified_at' => null,
             'confirmation_token' => Str::random(60),
         ];
     }

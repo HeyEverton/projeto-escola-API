@@ -26,9 +26,10 @@ class CursoRequest extends FormRequest
         return [
             'nome' => 'required|string',
             'descricao' => 'required|string',
-            'ativo' => 'required|boolean',
-            'preco' => 'required|integer',
+            'ativo' => 'nullable',
+            'preco' => 'required',
             'carga_horaria' => 'required|integer',
+            'desconto' => 'nullable',
         ];
     }
 }
