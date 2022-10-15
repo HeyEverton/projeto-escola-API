@@ -27,6 +27,7 @@ class AuthRegisterRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email',
             'role' => 'required|string',
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'password' => 'required|min:8|max:30|regex:(^[a-zA-Z0-9 _-]+[a-zA-Z0-9-14\-[a-zA-Z0-9-.]+$)',
         ];
     }

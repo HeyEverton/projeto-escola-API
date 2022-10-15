@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\RoleUsers;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'role',
+        'profile_photo',
         'password',
         'confirmation_token',
     ];
@@ -38,6 +40,13 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
     ];
+
+    protected function profilePhoto(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => 'http://' . $_SERVER['HTTP_HOST'] . "/storage/perfis/" . $value,
+        );
+    }
 
     /**
      * The attributes that should be cast.
@@ -58,9 +67,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
-    public function pagamentos()
+    
+    public function parcela()
     {
-        return $this->hasMany(Pagamento::class);
+        return $this->hasMany(Parcela::class);
     }
 }

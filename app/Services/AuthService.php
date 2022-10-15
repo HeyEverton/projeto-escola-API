@@ -5,10 +5,12 @@ namespace App\Services;
 use App\Events\ForgotPassword;
 use App\Events\UserRegistered;
 use App\Exceptions\{EmailHasBeenTaken, LoginInvalidException, ResetPasswordTokenInvalidException, VerifyEmailTokenInvalidException};
+use App\Http\Requests\AuthRegisterRequest;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class AuthService
 {
@@ -30,25 +32,29 @@ class AuthService
         ];
     }
 
-    public function register(string $name, string $email, string $role, string $password)
+    public function register(array $input, AuthRegisterRequest $request)
     {
-        $user = User::where('email', $email)->exists();
+        $user = User::where('email', $input['email'])->exists();
         $token = Str::random(60);
         if (!empty($user)) {
             throw new EmailHasBeenTaken();
         }
-        $usuarioSenha = bcrypt($password ?? Str::random(10));
-        $user = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => $usuarioSenha,
-            'role' => $role,
-            'confirmation_token' => $token
-        ]);
-        
+        $data = $request->all();
+        $fotoPerfil = $request->file('profile_photo');
+        if ($fotoPerfil) {
+            if ($request->file('profile_photo')->isValid()) {
+                $extensaoArquivo = $fotoPerfil->getClientOriginalExtension();
+                $nomeArquivo = Uuid::uuid6() . "." . "{$extensaoArquivo}";
+                $fotoPerfil->storeAs('public/perfis', $nomeArquivo);
+                $data['profile_photo'] = $nomeArquivo;
+                $data['password'] = bcrypt($data['password']);
+                $data['confirmation_token'] = Str::random(60);
+            }
+        }
+        $user = User::create($data);
         event(new UserRegistered($user));
-
         return $user;
+
     }
 
     public function verifyEmail(string $token)
