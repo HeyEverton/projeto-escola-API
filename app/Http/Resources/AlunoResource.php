@@ -22,7 +22,7 @@ class AlunoResource extends JsonResource
             'email' => (string)$this->email,
             'sexo' => $this->sexo,
             'nacionalidade' => $this->nacionalidade,
-            'escolaridade' => (string)$this->escolaridade,
+            'escolaridade' => $this->escolaridade,
             'data_nasc' => (string)$this->data_nasc,
             'whatsapp' => (string)$this->whatsapp,
             'tel_contato' => (string)$this->tel_contato,

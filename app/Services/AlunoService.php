@@ -35,11 +35,11 @@ class AlunoService
         if ($alunoFoto) {
             if ($request->file('aluno_foto')->isValid()) {
                 $extensaoArquivo = $alunoFoto->getClientOriginalExtension();
-                $nome = Uuid::uuid6();
-                $arquivo = $alunoFoto->storeAs('alunos-fotos', "{$nome}" .  "." . "{$extensaoArquivo}");
+                $nome = Uuid::uuid6() . '.'. $extensaoArquivo;
+                $arquivo = $alunoFoto->storeAs('public/alunos_fotos', $nome);
             }
         }
-        $data['aluno_foto'] = $arquivo;
+        $data['aluno_foto'] = $nome;
         $aluno =  $this->aluno->create($data);
 
         return $aluno;

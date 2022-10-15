@@ -34,7 +34,7 @@ class PagamentoController extends Controller
     {
         $input = $request->validated();
         // dd($input);
-        $pagamento = auth()->user()->pagamentos()->create($input);
+        $pagamento = $this->pagamento->create($input);
 
         return response()->json($pagamento, 200);
     }
@@ -56,7 +56,7 @@ class PagamentoController extends Controller
 
     public function showRelation($id)
     {
-        $pagamento = $this->pagamento->with('aluno')->with('usuario')->find($id);
+        $pagamento = $this->pagamento->with('aluno')->with('usuario')->with('parcela')->find($id);
         if (empty($pagamento)) {
             throw new ModelNotFoundException();
         }
@@ -77,7 +77,7 @@ class PagamentoController extends Controller
         if (empty($pagamento)) {
             throw new ModelNotFoundException();
         }
-        $pagamento = auth()->user()->pagamentos()->update($input);
+        $pagamento->update($input);
 
         return response()->json([
             'message' => 'O pagamento foi atualizado com sucesso.'
@@ -101,5 +101,19 @@ class PagamentoController extends Controller
         'message' => 'O pagamento foi excluido com sucesso.'
        ], 200);
        
+    }
+
+    public function pagamentosUmAluno($id)
+    {
+        $pagamentos = $this->pagamento->where('aluno_id', $id)->get();
+        return response()->json($pagamentos, 200);
+    }
+
+
+    public function pagamentoParcelaAlunoUsuario(Request $request)
+    {
+        dd('oi');
+        // $pagamento = Pagamento::where('status', 3)->with('parcela')->with('usuario')->with('aluno')->get();
+        // return response()->json($pagamento, 200);
     }
 }

@@ -6,6 +6,8 @@ use App\Exceptions\FileNotSend;
 use App\Http\Requests\{CreateAlunoFotoRequest, CreateAlunoRequest};
 use App\Http\Resources\AlunoResource;
 use App\Models\Aluno;
+use App\Models\Matricula;
+use App\Models\Parcela;
 use App\Models\User;
 use App\Services\AlunoService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -28,7 +30,7 @@ class AlunoController extends Controller
     {
         $this->authorize('view', Aluno::class); 
         
-        $alunos = $this->aluno->select()->paginate();
+        $alunos = $this->aluno->select()->paginate(100000000000);
 
         return response()->json($alunos, 200);
     }
@@ -138,4 +140,44 @@ class AlunoController extends Controller
         $alunos = $this->aluno->select()->where('sexo', 'like', '%' . $sexo . '%')->paginate();        
         return response()->json($alunos, 200);
     }
+
+    public function alunoMatricula($id)
+    {
+        $aluno = Matricula::with('aluno')->where('aluno_id', $id)->get();
+    
+        if (empty($aluno)) {
+            throw new ModelNotFoundException();
+        }
+        return response()->json([
+            'data' => $aluno
+        ]);
+    }
+
+    public function todosAlunosContagem()
+    {
+        $alunos = $this->aluno->select('*')->count();
+        return response()->json([
+            'contagem_alunos' => $alunos
+        ]);
+    }
+
+    public function alunoMatriculaParcela($id)
+    {
+        $aluno = Parcela::where('aluno_id', $id)->with('matricula')->with('aluno')->get() ;
+
+        return response()->json([
+            'data' => $aluno
+        ]);
+    }
+
+    // public function alunoMatriculaParcela($id)
+    // {
+    //     $aluno = Aluno::with('parcelas')->with('pagamentos')->find($id);
+
+    //     return response()->json([
+    //         'data' => $aluno
+    //     ]);
+    // }
+
+
 }

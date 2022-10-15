@@ -97,4 +97,36 @@ class CursoController extends Controller
             'msg' => 'excluido com sucesso',
         ]);
     }
+
+    public function pesquisarNome($nome)
+    {
+        $cursos = $this->curso->select()->where('nome', 'like', '%' . $nome . '%')->paginate();
+        return response()->json($cursos, 200);
+    }
+
+    public function pesquisarPreco($preco)
+    {
+        $cursos = $this->curso->select()->where('preco', 'like', '%' . $preco . '%')->paginate();
+        return response()->json($cursos, 200);
+    }
+
+    
+    public function todosCursosContagem()
+    {
+        $cursos = $this->curso->select('*')->count();
+        return response()->json([
+            'contagem_cursos' => $cursos
+        ]);
+    }
+    
+    public function todosCursosEstimativa()
+    {
+        // $cursos = Curso::whereRaw("DATE(created_at) = '" . date('D/M/Y') . "'")->get();
+        $cursos = Curso::whereDate('created_at', today())->get();
+        return $cursos;
+        // $cursos = $this->curso->where('created_at', 'like', '%' . $mes . '%')->count('*');
+        // return response()->json([
+        //     'contagem_cursos' => $cursos
+        // ]);
+    }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ParcelaRequest;
+use App\Http\Requests\{InformarPagamentoRequest, ParcelaRequest, ParcelaStoreRequest};
+use App\Models\Aluno;
 use App\Models\Parcela;
+use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class ParcelaController extends Controller
 {
@@ -30,11 +31,66 @@ class ParcelaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(ParcelaRequest $request)
     {
-        $input = $request->validated();
-        $parcela = $this->parcela->create($input);
-        return response()->json($parcela, 200);
+        $request->validated();
+        $dataV = new DateTime($request->data_vencimento);
+        $valorMensalidade = $request->valor_curso / $request->qtd_parcelas;
+        $parcelas = [];
+
+        for ($i = 1; $i <= $request->qtd_parcelas; $i++) {
+            $objParcela = [
+                'num_parcela' => $i,
+                'valor_parcela' => $valorMensalidade,
+                'data_vencimento' => $dataV->modify('+1 month')->format('Y-m-d'),
+            ];
+            $parcelas[] = $objParcela;
+        }
+        return response($parcelas);
+    }
+
+    public function criarParcelas(ParcelaStoreRequest $request)
+    {
+        $request->validated();
+        $dataV = new DateTime($request->data_vencimento);
+        $valorMensalidade = $request->valor_curso / $request->qtd_parcelas;
+        $parcelas = [];
+
+        for ($i = 1; $i <= $request->qtd_parcelas; $i++) {
+
+            $parcelas = Parcela::create([
+                'num_parcela' => $i,
+                'valor_parcela' => $valorMensalidade,
+                'data_vencimento' => $dataV->modify('+1 month')->format('Y-m-d'),
+                'matricula_id' => $request->matricula_id,
+                'aluno_id' => $request->aluno_id,
+            ]);
+        }
+        return response()->json([
+            $parcelas
+        ], 200);
+    }
+
+    public function informarPagamento(InformarPagamentoRequest $request, $id)
+    {
+        $request->validated();
+        $parcela = $this->parcela->find($id);
+        
+        if (!empty($parcela)) {
+            $parcela->fill($request->all());
+            $parcela->save();
+
+            return response()->json([
+                'message' => 'O pagamento foi informado com sucesso.'
+            ], 200);
+
+        } else {
+            throw new ModelNotFoundException();
+        }
+        
+        // $parcela = $this->parcela->update($input);
+
     }
 
     /**
@@ -45,7 +101,7 @@ class ParcelaController extends Controller
      */
     public function show($id)
     {
-        $parcela = $this->parcela->find($id);
+        $parcela = $this->parcela->with('aluno')->with('usuario')->find($id);
         if (empty($parcela)) {
             throw new ModelNotFoundException();
         }
@@ -98,6 +154,20 @@ class ParcelaController extends Controller
 
         return response()->json([
             'message' => 'Excluido com sucesso',
+        ], 200);
+    }
+
+    public function parcelaAluno($id)
+    {
+        $parcelas = Parcela::where('aluno_id', $id)->get();
+        return response()->json($parcelas, 200);
+    }
+
+    public function parcelaAlunoContagem($id)
+    {
+        $contagem = Parcela::count('*')->where('aluno_id', $id)->get();
+        return response()->json([
+            'data' => $contagem
         ], 200);
     }
 }
