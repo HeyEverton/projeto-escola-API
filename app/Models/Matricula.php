@@ -33,4 +33,9 @@ class Matricula extends Model
     {
         return $this->hasMany(Parcela::class);
     }
+
+    public function turma()
+    {
+        return $this->belongsTo(Turma::class);
+    }
 }

@@ -24,11 +24,12 @@ class ParcelaRequest extends FormRequest
     public function rules()
     {
         return [
-            'num_parcela' => 'required',
-            'valor_parcela' => 'required',
-            'data_vencimento' => 'required|date',
-            'aluno_id' => 'required',
-            'matricula_id' => 'required',
+            'num_parcela' => 'sometimes',
+            'data_vencimento' => 'sometimes',
+            'aluno_id' => 'sometimes',
+            'matricula_id' => 'sometimes',
+            'valor_curso' => 'sometimes',
+            'desconto_curso' => 'sometimes',
         ];
     }
 }

@@ -29,6 +29,8 @@ class PagamentoRequest extends FormRequest
             'status' => 'sometimes',
             'observacao' => 'sometimes',
             'aluno_id' => 'required',
+            'user_id' => 'required',
+            'parcela_id' => 'required',
         ];
     }
 }

@@ -17,6 +17,8 @@ class Pagamento extends Model
         'status',
         'observacao',
         'aluno_id',
+        'user_id',
+        'parcela_id',
     ];
 
     protected $casts = [
@@ -28,8 +30,10 @@ class Pagamento extends Model
         return $this->belongsTo(Aluno::class);
     }
 
-    public function usuario()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+
+
+    // public function parcela()
+    // {
+    //     return $this->belongsTo(Parcela::class);
+    // }
 }
