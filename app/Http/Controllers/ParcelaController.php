@@ -88,9 +88,6 @@ class ParcelaController extends Controller
         } else {
             throw new ModelNotFoundException();
         }
-        
-        // $parcela = $this->parcela->update($input);
-
     }
 
     /**
@@ -153,7 +150,7 @@ class ParcelaController extends Controller
         $parcela->delete();
 
         return response()->json([
-            'message' => 'Excluido com sucesso',
+            'message' => 'Excluído com sucesso',
         ], 200);
     }
 

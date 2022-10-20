@@ -75,14 +75,13 @@ class Handler extends ExceptionHandler
 
         if($exception instanceof AccessDeniedHttpException) {
             $exceptionName = class_basename($exception);
-            $apiErrorCode = 'AccessDeniedHttpException';
+            $apiErrorCode = 'AccessDeniedException';
             $message = 'Acesso negado.';
             return response()->json([
                 'error' => $apiErrorCode,
                 'message' => $message,
             ], 404);
         }
-
         return parent::render($request, $exception);
     }
 }
