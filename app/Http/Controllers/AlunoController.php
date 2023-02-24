@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\FileNotSend;
-use App\Http\Requests\{CreateAlunoFotoRequest, CreateAlunoRequest};
+use App\Http\Requests\{AlunoUpdateRequest, CreateAlunoFotoRequest, CreateAlunoRequest};
 use App\Http\Resources\AlunoResource;
 use App\Models\Aluno;
 use App\Models\Matricula;
@@ -75,7 +75,7 @@ class AlunoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateAlunoRequest $request, $id)
+    public function update(AlunoUpdateRequest $request, $id)
     {
         $this->authorize('update', Aluno::class); 
         $input = $request->validated();
@@ -169,15 +169,4 @@ class AlunoController extends Controller
             'data' => $aluno
         ]);
     }
-
-    // public function alunoMatriculaParcela($id)
-    // {
-    //     $aluno = Aluno::with('parcelas')->with('pagamentos')->find($id);
-
-    //     return response()->json([
-    //         'data' => $aluno
-    //     ]);
-    // }
-
-
 }

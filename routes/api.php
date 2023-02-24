@@ -39,7 +39,7 @@ Route::prefix('v1/')->group(function() {
     Route::resource('matriculas', MatriculaController::class);
     Route::get('matricula/aluno/{id}', [MatriculaController::class, 'showRelation']);
 
-    //ALUNO
+    //ALUNOS
     Route::resource('alunos', AlunoController::class);
     Route::get('aluno/matricula/{id}', [AlunoController::class, 'alunoMatricula']);
     Route::get('alunos/pesquisar/nome/{nome}', [AlunoController::class, 'pesquisarNome']); 
@@ -51,7 +51,7 @@ Route::prefix('v1/')->group(function() {
     Route::get('todos-alunos', [AlunoController::class, 'todosAlunosContagem']); 
     Route::get('dados-aluno/{id}', [AlunoController::class, 'alunoMatriculaParcela']); 
     
-    //PROFESSOR    
+    //PROFESSORES 
     Route::resource('professores', ProfessorController::class);
     Route::get('professores/pesquisar/nome/{nome}', [ProfessorController::class, 'pesquisarNome']); 
     Route::get('professores/pesquisar/cpf/{cpf}', [ProfessorController::class, 'pesquisarCpf']); 
@@ -62,14 +62,14 @@ Route::prefix('v1/')->group(function() {
     Route::get('professores/pesquisar/sexo/{sexo}', [ProfessorController::class, 'pesquisarTodosSexo']); 
     Route::get('todos-professores', [ProfessorController::class, 'todosProfessoresContagem']); 
     
-    //CURSO
+    //CURSOS
     Route::resource('cursos', CursoController::class);
     Route::get('cursos/pesquisar/nome/{nome}', [CursoController::class,'pesquisarNome']);
     Route::get('cursos/pesquisar/preco/{preco}', [CursoController::class,'pesquisarPreco']);
     Route::get('todos-cursos', [CursoController::class, 'todosCursosContagem']); 
     Route::get('todos-cursos/hoje', [CursoController::class, 'todosCursosEstimativa']); 
 
-    //TURMA
+    //TURMAS
     Route::resource('turmas',  TurmaController::class) ;
     Route::get('turmas/editar/{id}', [TurmaController::class, 'showRelation']);
     Route::get('turma/curso/{id}', [TurmaController::class, 'turmaCurso']);
@@ -82,13 +82,11 @@ Route::prefix('v1/')->group(function() {
     Route::post('pagamento/{id}', [ParcelaController::class, 'informarPagamento']);
     Route::post('parcelas/matricular', [ParcelaController::class, 'criarParcelas']);
     Route::get('parcelas/aluno/matricula/{id}', [ParcelaController::class, 'showRelation']);;
+    Route::get('parcelas/matricula/turmas/{id}', [ParcelaController::class, 'parcelaMatricula']);;
     Route::get('parcelas/aluno/{id}', [ParcelaController::class, 'parcelaAluno']);;
     Route::get('parcelas/contagem/{id}', [ParcelaController::class, 'parcelaAlunoContagem']);;
-
-    //pagamentos
-    // Route::resource('pagamentos', PagamentoController::class);
-    // Route::get('pagamentos/alunos/usuario/{id}', [PagamentoController::class, 'showRelation']);
-    // Route::get('pagamentos/alunos/{id}', [PagamentoController::class, 'pagamentosUmAluno']);
-    // Route::get('pagamentos/parcelas', [PagamentoController::class, 'pagamentoParcelaAlunoUsuario']);
-   
+    Route::get('parcelas/abertas/{id}', [ParcelaController::class, 'parcelasAbertas']);;
+    Route::get('parcelas/pagas/{id}', [ParcelaController::class, 'parcelasPagas']);;
+    Route::get('parcelas/pagas-atraso/{id}', [ParcelaController::class, 'parcelasPagasComAtraso']);;
+    Route::get('parcelas/atrasadas/{id}', [ParcelaController::class, 'parcelasAtrasadas']);;
 });

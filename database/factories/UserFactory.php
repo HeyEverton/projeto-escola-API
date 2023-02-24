@@ -22,7 +22,6 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => 'Aluno',
             'profile_photo' => Uuid::uuid6() . '.jpg',
             'email_verified_at' => null,
             'confirmation_token' => Str::random(60),

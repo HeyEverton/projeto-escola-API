@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('banco', 4);
             $table->string('numero_conta', 10);
             $table->string('agencia', 5);
+            // $table->char('forma_pagamento', 1)->nullable();
+            $table->double('valor_salario')->nullable();
 
             $table->timestamps();
         });

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\EmailHasBeenTaken;
 use App\Exceptions\FileNotSend;
 use App\Exceptions\InvalidCpf;
+use App\Http\Requests\AlunoUpdateRequest;
 use App\Http\Requests\CreateAlunoFotoRequest;
 use App\Http\Requests\CreateAlunoRequest;
 use App\Http\Resources\AlunoResource;
@@ -45,16 +46,10 @@ class AlunoService
         return $aluno;
     }
 
-    public function edit(array $input, CreateAlunoRequest $request, $id)
+    public function edit(array $input, AlunoUpdateRequest $request, $id)
     {
         $input = $request->validated();
-
         $aluno = $this->aluno->findOrFail($id);
-        $alunoEmail = Aluno::where('email', $input['email'])->exists();
-        $alunoCpf = Aluno::where('cpf_aluno', $input['cpf_aluno'])->exists();
-
-        if (!empty($alunoEmail)) { throw new EmailHasBeenTaken(); }
-        if (!empty($alunoCpf)) { throw new InvalidCpf(); }
         $aluno->fill($request->except('aluno_foto'));
         if ($foto = $request->hasFile('aluno_foto')) {
 
@@ -64,8 +59,6 @@ class AlunoService
             $caminhoArquivo = public_path() . '/storage/alunos_fotos/';
             $foto->move($caminhoArquivo, $nomeArquivo);
             $aluno->aluno_foto = $nomeArquivo;
-        } else {
-            throw new FileNotSend();
         }
         $aluno->save();
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\{InformarPagamentoRequest, ParcelaRequest, ParcelaStoreRequest};
+use App\Http\Resources\ParcelaResource;
 use App\Models\Aluno;
+use App\Models\Matricula;
 use App\Models\Parcela;
 use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -166,5 +168,35 @@ class ParcelaController extends Controller
         return response()->json([
             'data' => $contagem
         ], 200);
+    }
+
+    public function parcelaMatricula($id)
+    {
+        $parcelasMatriculas = Matricula::where('aluno_id', $id)->with('parcelas')->with('turma')->get();
+        return (new ParcelaResource($parcelasMatriculas));
+    }
+
+    public function parcelasAbertas($id)
+    {
+        $parcelas = $this->parcela->where('status', 1)->where('aluno_id', $id)->get();
+        return response()->json($parcelas);
+    }
+
+    public function parcelasPagas($id)
+    {
+        $parcelas = $this->parcela->where('status', 3)->where('aluno_id', $id)->get();
+        return response()->json($parcelas);
+    }
+
+    public function parcelasPagasComAtraso($id)
+    {
+        $parcelas = $this->parcela->where('status', 2)->where('aluno_id', $id)->get();
+        return response()->json($parcelas);
+    }
+
+    public function parcelasAtrasadas($id)
+    {
+        $parcelas = $this->parcela->where('status', 4)->where('aluno_id', $id)->get();
+        return response()->json($parcelas);
     }
 }
